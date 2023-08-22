@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ConCurrency</string>
+    <string name="amount">مبلغ</string>
+    <string name="from">من</string>
+    <string name="to">الي</string>
+    <string name="convert">تحويل</string>
+    <string name="cardTitleFirst">محول العملات</string>
+    <string name="cardTitleSecond">تحقق من أسعار صرف العملات الأجنبية الحالية</string>
+</resources>
