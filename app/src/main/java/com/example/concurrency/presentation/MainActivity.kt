@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
                       .fillMaxSize()
               )
                 {
-//                   CurrencyConverterCard()
-                    CurrencyCompareScreen()
+                   CurrencyConverterCard()
+//                    CurrencyCompareScreen()
                 }
             }
         }

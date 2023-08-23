@@ -34,9 +34,9 @@ fun CurrencyCompareScreen() {
 
             }
             Row{
-                UserEditText(20, modifier = Modifier.weight(0.45f))
-                Spacer(modifier = Modifier.weight(0.10f))
-                DropDownList(20, modifier = Modifier.weight(0.45f))
+                UserEditText(20, modifier = Modifier.weight(0.48f))
+                Spacer(modifier = Modifier.weight(0.04f))
+                DropDownList(20, modifier = Modifier.weight(0.48f))
             }
 
             Row {
@@ -49,14 +49,14 @@ fun CurrencyCompareScreen() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ){
-                DropDownList(20, Modifier.weight(0.45f))
-                Spacer(modifier = Modifier.weight(0.10f))
-                DropDownList(20, Modifier.weight(0.45f))
+                DropDownList(20, Modifier.weight(0.48f))
+                Spacer(modifier = Modifier.weight(0.04f))
+                DropDownList(20, Modifier.weight(0.48f))
             }
             Row{
-                ResultView("1",20,Modifier.weight(0.45f))
-                Spacer(modifier = Modifier.weight(0.10f))
-                ResultView("1",20,Modifier.weight(0.45f))
+                ResultView("1",20,Modifier.weight(0.48f))
+                Spacer(modifier = Modifier.weight(0.04f))
+                ResultView("1",20,Modifier.weight(0.48f))
 
             }
             ButtonClickOn(
