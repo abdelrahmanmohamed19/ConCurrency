@@ -2,7 +2,6 @@ package com.example.concurrency.presentation.converterCard
 
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.concurrency.ui.theme.CardBackground
@@ -41,13 +40,14 @@ import com.example.concurrency.ui.theme.CardComponentBackground
 import com.example.concurrency.ui.theme.CardTextColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import com.example.concurrency.R
 import com.example.concurrency.ui.theme.TextColorWhite
+
+
 
 @Composable
 fun CurrencyConverterTitle() {
@@ -66,7 +66,7 @@ fun CurrencyConverterTitle() {
    }
 }
 @Composable
-fun MyTextTitle(text:String,paddingTop:Int) {
+fun MyTextTitle(text:String,paddingTop:Int,modifier: Modifier) {
     Text(
         text = text,
         style = TextStyle(
@@ -74,13 +74,13 @@ fun MyTextTitle(text:String,paddingTop:Int) {
             fontSize= 14.sp,
             fontWeight= FontWeight.Bold,
         ),
-        modifier = Modifier.padding(top = paddingTop.dp)
+        modifier = modifier.padding(top = paddingTop.dp)
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserEditText(paddingTop:Int = 0) {
+fun UserEditText(paddingTop: Int = 0, modifier: Modifier) {
     val customColors = TextFieldDefaults.outlinedTextFieldColors(
         // Default Colors
         cursorColor = CardTextColor,
@@ -95,8 +95,8 @@ fun UserEditText(paddingTop:Int = 0) {
     OutlinedTextField(
         value = "1 EGP",
         onValueChange = {},
-        shape = RoundedCornerShape(10.dp),
-        modifier = Modifier
+        shape = RoundedCornerShape(20.dp),
+        modifier = modifier
             .padding(top = paddingTop.dp)
             .fillMaxWidth()
             .height(55.dp),
@@ -114,22 +114,23 @@ fun UserEditText(paddingTop:Int = 0) {
         )
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+
+
 @Composable
-fun DropDownList(paddingTop:Int=0) {
+fun DropDownList(paddingTop: Int = 0, modifier: Modifier) {
 Card(
+    shape = RoundedCornerShape(20.dp),
+    modifier = modifier
+        .padding(top = paddingTop.dp)
+        .fillMaxWidth()
+        .border(
+            border = BorderStroke(1.dp, CardBorderColor),
+            shape = RoundedCornerShape(20.dp)
+        )
+     ,
     colors = CardDefaults.cardColors(
         containerColor = CardComponentBackground,
     ),
-    modifier = Modifier
-        .padding(top = paddingTop.dp)
-        .fillMaxWidth()
-        .height(55.dp)
-        .border(
-            border = BorderStroke(1.dp, CardBorderColor),
-            shape = RoundedCornerShape(10.dp)
-        ),
-
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -146,7 +147,7 @@ Card(
         )
         Spacer(modifier = Modifier.width(5.dp))
         DropDownText(
-            text = "Egp - Egyptian pound",
+            text = "EGP",
             modifier = Modifier.weight(0.70f)
         )
         CurrencyIcon(
@@ -161,6 +162,11 @@ Card(
     }
 }
 }
+
+
+
+
+
 
 @Composable
 fun DropDownText(text:String, modifier: Modifier) {
@@ -189,13 +195,13 @@ fun CountryImage(link:String,modifier: Modifier) {
 
 @Composable
 fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifier, onIconClick:()-> Unit = {}) {
-    Image(
+    Icon(
         imageVector = icon,
         contentDescription = contentDescription,
         modifier = modifier.clickable {
             onIconClick()
         },
-        colorFilter = ColorFilter.tint(Color.DarkGray)
+        tint = Color.DarkGray
 
     )
 }
@@ -205,11 +211,50 @@ fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifie
 
 
 @Composable
+fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = CardComponentBackground,
+        ),
+        modifier = modifier
+            .padding(top = paddingTop.dp)
+            .fillMaxWidth()
+            .height(55.dp)
+            .border(
+                border = BorderStroke(1.dp, CardBorderColor),
+                shape = RoundedCornerShape(20.dp)
+            ),
+
+        ) {
+      Row (
+          modifier = modifier
+              .fillMaxWidth()
+              .padding(start = 5.dp)
+              .height(55.dp),
+          horizontalArrangement = Arrangement.Start,
+          verticalAlignment = Alignment.CenterVertically
+
+      ){
+          Text(
+              text = result,
+              style = TextStyle(
+                  color = CardTextColor,
+                  fontWeight = FontWeight.Bold,
+                  fontSize = 16.sp
+              )
+          )
+      }
+    }
+}
+
+
+
+@Composable
 fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Unit ) {
     Button (colors = ButtonDefaults.buttonColors(containerColor = CardButtonBackground),
         enabled = true,
         onClick = {onButtonClick()},
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(top = paddingTopValue.dp)
             .fillMaxWidth()

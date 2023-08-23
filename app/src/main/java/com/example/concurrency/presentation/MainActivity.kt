@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.concurrency.presentation.converterCard.CurrencyConverterCard
+import com.example.concurrency.presentation.converterCard.CurrencyCompareScreen
 import com.example.concurrency.ui.theme.ConCurrencyTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,11 +19,12 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
               Box(
                   modifier = Modifier
-                      .background(Color.Black)
+                      .background(Color.White)
                       .fillMaxSize()
               )
                 {
-                  CurrencyConverterCard()
+                  // CurrencyConverterCard()
+                    CurrencyCompareScreen()
               }
             }
         }
