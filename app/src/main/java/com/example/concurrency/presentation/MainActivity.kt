@@ -16,18 +16,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ConCurrencyTheme {
-                // A surface container using the 'background' color from the theme
-              Box(
-                  modifier = Modifier
-                      .background(Color.White)
-                      .fillMaxSize()
-              )
-                {
-//                   CurrencyConverterCard()
-//                    CurrencyCompareScreen()
-//                  AppNavigation()
-                  Rest()
-                }
+                LinearGradient()
+                Rest()
+
             }
         }
     }

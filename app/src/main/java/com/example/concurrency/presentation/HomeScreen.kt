@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
@@ -58,7 +59,6 @@ import kotlinx.coroutines.launch
 
 
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LinearGradient() {
 
@@ -66,11 +66,13 @@ fun LinearGradient() {
         Image(painter = painterResource(id = R.drawable.background_image), contentDescription = "Image",
             modifier = Modifier
                 .height(250.dp)
-                .fillMaxWidth(), contentScale = ContentScale.FillBounds)
+                .fillMaxWidth(),
+            contentScale = ContentScale.FillBounds)
     }
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(15.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        .padding(15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -84,12 +86,12 @@ fun LinearGradient() {
         Text(
             text = "check live foreigen Currency exchange rates",
             color = Color.White,
-            fontSize = 18.sp
+            fontSize = 14.sp
         )
 
     }
 }
-
+@Preview(showSystemUi = true, showBackground = true)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Rest() {
@@ -99,11 +101,32 @@ fun Rest() {
     val tabItem = listOf(NavigationScreens.ConvertScreen, NavigationScreens.CompareScreen)
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
-    Column {
+    Box {
+       // LinearGradient()
+
+        HorizontalPager(
+
+            count = tabItem.size, state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 220.dp)
+                .background(color = Color.White),
+            verticalAlignment = Alignment.Top,
+        ) { index ->
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 50.dp)
+            ){
+                AppNavigation(tabItem[index].route)
+            }
+
+        }
+
         TabRow(
             selectedTabIndex = pagerState.currentPage,
             modifier = Modifier
-                .padding(all = 20.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 200.dp)
                 .background(color = Color.Transparent)
                 .clip(RoundedCornerShape(30.dp)), backgroundColor = UnSelectedTab,
             indicator = { tabPositions ->
@@ -133,7 +156,7 @@ fun Rest() {
                                 color = CardTextColor,
                                 fontSize = 18.sp
                             )
-                            else androidx.compose.ui.text.TextStyle(
+                            else TextStyle(
                                 color = Color.Gray,
                                 fontSize = 16.sp
                             )
@@ -152,16 +175,7 @@ fun Rest() {
             }
 
         }
-        HorizontalPager(
-            count = tabItem.size, state = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White)
-        ) { index ->
 
-            AppNavigation(tabItem[index].route)
-
-        }
 
     }
     BackHandler(onBack = {
