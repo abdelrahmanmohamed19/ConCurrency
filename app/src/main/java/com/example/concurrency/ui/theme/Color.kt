@@ -20,3 +20,9 @@ val CardComponentBackground = Color(0xFFE7E6E6)
 val CardBorderColor = Color(0xFFC5C5C5)
 val CardTextColor = Color(0xFF000000)
 val CardButtonBackground = Color(0xFF363636)
+
+
+// Tab Colors
+
+val SelectedTab =Color(0xFFFFFFFF)
+val UnSelectedTab = Color(0xFFF8F8F8)

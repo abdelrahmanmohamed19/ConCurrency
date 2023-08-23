@@ -95,10 +95,13 @@ dependencies {
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
-    //ConstraintLayout
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // tab layout
+    implementation ("com.google.accompanist:accompanist-pager:0.21.0-beta")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.21.0-beta")
+    implementation("androidx.compose.foundation:foundation:1.0.4")
 
 }

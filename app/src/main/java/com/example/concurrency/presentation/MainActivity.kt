@@ -8,8 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.concurrency.presentation.converterCard.CurrencyCompareScreen
-import com.example.concurrency.presentation.converterCard.CurrencyConverterCard
+import com.example.concurrency.presentation.navigation.AppNavigation
 import com.example.concurrency.ui.theme.ConCurrencyTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,8 +23,10 @@ class MainActivity : ComponentActivity() {
                       .fillMaxSize()
               )
                 {
-                   CurrencyConverterCard()
+//                   CurrencyConverterCard()
 //                    CurrencyCompareScreen()
+//                  AppNavigation()
+                  Rest()
                 }
             }
         }
