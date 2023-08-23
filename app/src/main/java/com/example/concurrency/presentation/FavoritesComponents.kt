@@ -29,7 +29,7 @@ import com.example.concurrency.R
 
 @Preview(showBackground = true)
 @Composable
-fun FavouritesComponents() {
+fun FavoritesComponents() {
 
     Column(modifier = Modifier
         .padding(start = 8.dp, end = 8.dp)
@@ -51,10 +51,9 @@ fun FavouritesComponents() {
                 border = BorderStroke(1.dp, color = Color.Black),
                 shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(Color.White)) {
-
-                Image(painter = painterResource(id = R.drawable.add_favourites), contentDescription = "")
+                Image(painter = painterResource(id = R.drawable.add_icon), contentDescription = "")
                 Text(
-                    text = "Add to Favourites",
+                    text = "Add to Favorites",
                     color = Color.DarkGray,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(start = 4.dp),
