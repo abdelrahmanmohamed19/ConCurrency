@@ -2,6 +2,7 @@ package com.example.concurrency.presentation.converterCard
 
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +21,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -118,51 +122,88 @@ fun UserEditText(paddingTop: Int = 0, modifier: Modifier) {
 
 @Composable
 fun DropDownList(paddingTop: Int = 0, modifier: Modifier) {
-Card(
-    shape = RoundedCornerShape(20.dp),
-    modifier = modifier
-        .padding(top = paddingTop.dp)
-        .fillMaxWidth()
-        .border(
-            border = BorderStroke(1.dp, CardBorderColor),
-            shape = RoundedCornerShape(20.dp)
-        )
-     ,
-    colors = CardDefaults.cardColors(
-        containerColor = CardComponentBackground,
-    ),
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .padding(start = 15.dp)
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf("Item 1") }
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        modifier = modifier
+            .padding(top = paddingTop.dp)
             .fillMaxWidth()
-            .height(55.dp)
+            .border(
+                border = BorderStroke(1.dp, CardBorderColor),
+                shape = RoundedCornerShape(20.dp)
+            )
+        ,
+        colors = CardDefaults.cardColors(
+            containerColor = CardComponentBackground,
+        ),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .fillMaxWidth()
+                .height(55.dp)
+                .clickable {
+                    expanded=true
+                }
         )
-    {
-        CountryImage(
-            link = "https://www.exchangerate-api.com/img/docs/JP.gif",
-            modifier = Modifier.weight(0.15f)
-        )
-        Spacer(modifier = Modifier.width(5.dp))
-        DropDownText(
-            text = "EGP",
-            modifier = Modifier.weight(0.70f)
-        )
-        CurrencyIcon(
-            Icons.Default.KeyboardArrowDown,
-            "DropDown Icon",
-            Modifier.weight(0.15f)
-        ){
+        {
+            CountryImage(
+                link = "https://www.exchangerate-api.com/img/docs/JP.gif",
+                modifier = Modifier.weight(0.30f)
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            DropDownText(
+                text = "EGP",
+                modifier = Modifier.weight(0.55f)
+            )
+            CurrencyIcon(
+                Icons.Default.KeyboardArrowDown,
+                "DropDown Icon",
+                Modifier.weight(0.15f)
+            )
 
         }
-
-        
+        DropdownMenu(
+            modifier=Modifier.background(CardComponentBackground),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            // Create menu items
+            listOf("EGP", "USD", "JPY","ITEM 4","item 5").forEach { item ->
+                DropdownMenuItem(
+                    onClick = {
+                        selectedItem = item
+                        expanded = false
+                    },
+                    text = {
+                        CardDropDown(item)
+                    }
+                )
+            }
+        }
     }
 }
-}
 
+@Composable
+fun CardDropDown(text:String) {
+    Row(
+        modifier = Modifier.background(CardComponentBackground)
+
+    ){
+        CountryImage(
+            link =  "https://www.exchangerate-api.com/img/docs/JP.gif",
+            modifier = Modifier.width(30.dp))
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(
+            text = text,
+            color = CardTextColor,
+            fontSize = 16.sp
+        )
+    }
+}
 
 
 
@@ -184,8 +225,8 @@ fun CountryImage(link:String,modifier: Modifier) {
     AsyncImage(
         model = "https://www.exchangerate-api.com/img/docs/JP.gif",
         modifier = modifier
-            .width(20.dp)
-            .height(28.dp),
+            .width(28.dp)
+            .height(30.dp),
         contentDescription = "Country Image",
         error = painterResource(id = R.drawable.placeholder),
         placeholder = painterResource(id = R.drawable.placeholder),
@@ -194,13 +235,11 @@ fun CountryImage(link:String,modifier: Modifier) {
 
 
 @Composable
-fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifier, onIconClick:()-> Unit = {}) {
+fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifier) {
     Icon(
         imageVector = icon,
         contentDescription = contentDescription,
-        modifier = modifier.clickable {
-            onIconClick()
-        },
+        modifier = modifier,
         tint = Color.DarkGray
 
     )
@@ -216,6 +255,7 @@ fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
         colors = CardDefaults.cardColors(
             containerColor = CardComponentBackground,
         ),
+        shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .padding(top = paddingTop.dp)
             .fillMaxWidth()
@@ -229,7 +269,7 @@ fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
       Row (
           modifier = modifier
               .fillMaxWidth()
-              .padding(start = 5.dp)
+              .padding(start = 15.dp)
               .height(55.dp),
           horizontalArrangement = Arrangement.Start,
           verticalAlignment = Alignment.CenterVertically
