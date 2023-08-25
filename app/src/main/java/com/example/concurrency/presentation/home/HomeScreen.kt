@@ -1,4 +1,4 @@
-package com.example.concurrency.presentation
+package com.example.concurrency.presentation.home
 
 import android.os.Handler
 import android.widget.Toast
@@ -23,9 +23,11 @@ import com.example.concurrency.R
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -41,27 +43,26 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.core.app.ActivityCompat.finishAffinity
-import androidx.navigation.compose.rememberNavController
-import com.example.concurrency.presentation.navigation.AppNavigation
-import com.example.concurrency.presentation.navigation.NavigationScreens
+import com.example.concurrency.data.Constants
+import com.example.concurrency.presentation.compare.CompareViewModel
+import com.example.concurrency.presentation.ui.AppNavigation
 import com.example.concurrency.ui.theme.CardTextColor
 import com.example.concurrency.ui.theme.SelectedTab
 import com.example.concurrency.ui.theme.UnSelectedTab
-
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-
-
-
-
+@Composable
+fun AppHomeScreen(homeViewModel: HomeViewModel , compareViewModel: CompareViewModel) {
+    TopAppScreen()
+    HomeContentScreen(homeViewModel, compareViewModel)
+}
 
 @Composable
-fun LinearGradient() {
-
+fun TopAppScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(painter = painterResource(id = R.drawable.background_image), contentDescription = "Image",
             modifier = Modifier
@@ -84,43 +85,42 @@ fun LinearGradient() {
         }
         Text(text = "Currency Converter", color = Color.White, fontSize = 25.sp)
         Text(
-            text = "check live foreigen Currency exchange rates",
+            text = "check live foreign Currency exchange rates",
             color = Color.White,
             fontSize = 14.sp
         )
 
     }
 }
-@Preview(showSystemUi = true, showBackground = true)
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Rest() {
+fun HomeContentScreen(homeViewModel: HomeViewModel , compareViewModel: CompareViewModel) {
     var doubleBackToExitPressedOnce = false
     val activity = LocalOnBackPressedDispatcherOwner.current as ComponentActivity
     val context = LocalContext.current
-    val tabItem = listOf(NavigationScreens.ConvertScreen, NavigationScreens.CompareScreen)
+    val tabItem = listOf(Constants.convertRoute,Constants.compareRoute)
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
-    Box {
-       // LinearGradient()
 
+
+    Box{
         HorizontalPager(
-
             count = tabItem.size, state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 220.dp)
                 .background(color = Color.White),
             verticalAlignment = Alignment.Top,
+
         ) { index ->
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 50.dp)
             ){
-                AppNavigation(tabItem[index].route)
+                AppNavigation(tabItem[index], homeViewModel , compareViewModel )
             }
-
         }
 
         TabRow(
@@ -151,7 +151,7 @@ fun Rest() {
                 Tab(
                     text = {
                         Text(
-                            screen.title,
+                            screen,
                             style = if (pagerState.currentPage == index) TextStyle(
                                 color = CardTextColor,
                                 fontSize = 18.sp
@@ -178,18 +178,15 @@ fun Rest() {
 
 
     }
+
+    //Back Handler
     BackHandler(onBack = {
-        // Handle the back button press here
-        // Navigate to a specific screen using navController.navigate(...)
         if (doubleBackToExitPressedOnce) {
-            finishAffinity(activity) //This will exit the app
+            finishAffinity(activity)
         } else {
             doubleBackToExitPressedOnce = true
             Toast.makeText(context, "Press again to exit", Toast.LENGTH_SHORT).show()
             Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
-            // Reset the flag after 2 seconds
         }
-
     })
-
 }

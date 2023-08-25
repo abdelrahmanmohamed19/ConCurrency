@@ -1,30 +1,40 @@
-package com.example.concurrency.presentation.converterCard
+package com.example.concurrency.presentation.ui
 
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -46,8 +56,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.example.concurrency.R
+import com.example.concurrency.presentation.home.HomeViewModel
 import com.example.concurrency.ui.theme.TextColorWhite
 
 
@@ -68,6 +80,7 @@ fun CurrencyConverterTitle() {
        )
    }
 }
+
 @Composable
 fun MyTextTitle(text:String,paddingTop:Int,modifier: Modifier) {
     Text(
@@ -90,6 +103,7 @@ fun UserEditText(paddingTop: Int = 0, modifier: Modifier) {
         focusedBorderColor = CardBorderColor,
         unfocusedBorderColor = CardBorderColor,
         containerColor = CardComponentBackground,
+
         // Error colors
         errorCursorColor = CardTextColor,
         errorBorderColor = Color.Red,
@@ -137,54 +151,59 @@ fun DropDownList(paddingTop: Int = 0, modifier: Modifier) {
             containerColor = CardComponentBackground,
         ),
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .padding(horizontal = 15.dp)
-                .fillMaxWidth()
-                .height(55.dp)
-                .clickable {
-                    expanded=true
-                }
-        )
-        {
-            CountryImage(
-                link = "https://www.exchangerate-api.com/img/docs/JP.gif",
-                modifier = Modifier.weight(0.30f)
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            DropDownText(
-                text = "EGP",
-                modifier = Modifier.weight(0.55f)
-            )
-            CurrencyIcon(
-                Icons.Default.KeyboardArrowDown,
-                "DropDown Icon",
-                Modifier.weight(0.15f)
-            )
-
-        }
-        DropdownMenu(
-            modifier=Modifier.background(CardComponentBackground),
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            // Create menu items
-            listOf("EGP", "USD", "JPY","ITEM 4","item 5").forEach { item ->
-                DropdownMenuItem(
-                    onClick = {
-                        selectedItem = item
-                        expanded = false
-                    },
-                    text = {
-                        CardDropDown(item)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .clickable {
+                        expanded = true
                     }
+            )
+            {
+                CountryImage(
+                    link = "https://www.exchangerate-api.com/img/docs/JP.gif",
+                    modifier = Modifier.weight(0.30f)
                 )
+                Spacer(modifier = Modifier.width(5.dp))
+                DropDownText(
+                    text = "EGP",
+                    modifier = Modifier.weight(0.55f)
+                )
+                CurrencyIcon(
+                    Icons.Default.KeyboardArrowDown,
+                    "DropDown Icon",
+                    Modifier.weight(0.15f)
+                )
+
+            }
+            DropdownMenu(
+                modifier= Modifier
+                    .background(CardComponentBackground)
+                    .height(180.dp),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                Column {
+                    // Create menu items
+                    listOf("EGP - Egyptian Pound", "EGP - Egyptian Pound" , "EGP - Egyptian Pound" , "EGP - Egyptian Pound" , "EGP - Egyptian Pound" , "EGP - Egyptian Pound" , "EGP - Egyptian Pound" , "EGP - Egyptian Pound" , "EGP - Egyptian Pound").forEach { item ->
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedItem = item
+                                expanded = false
+                            },
+                            text = {
+                                CardDropDown(item)
+                            }
+                        )
+                    }
+                }
             }
         }
+
     }
-}
 
 @Composable
 fun CardDropDown(text:String) {
@@ -199,7 +218,7 @@ fun CardDropDown(text:String) {
         Text(
             text = text,
             color = CardTextColor,
-            fontSize = 16.sp
+            fontSize = 12.sp
         )
     }
 }
@@ -300,6 +319,118 @@ fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Un
 
     ){
         Text(text = buttonText, fontSize = 25.sp, style = TextStyle(color = CardBackground))
+    }
+}
+
+@Composable
+fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
+    val list = listOf("USD", "EUR", "GBP", "JPY")
+    var isAdded by remember { mutableStateOf(false) }
+
+    if (isSelected) {
+        Dialog(onDismissRequest = {onDismiss.invoke()}){
+            Column(Modifier.fillMaxSize()) {
+                Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.fillMaxWidth()) {
+                    IconButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp)
+                    ) {
+                        Icon(imageVector = Icons.Filled.Clear, contentDescription = "")
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(8.dp)
+                ) {
+                    Text(text = "Add to Favorites" , fontSize = 18.sp ,fontWeight = FontWeight.W700, color = Color.Black , modifier = Modifier.padding(start = 8.dp ,top = 12.dp , bottom = 12.dp))
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, start = 8.dp)
+                    ) {
+                        items(list) {
+                            Row {
+                                Image(
+                                    painter = painterResource(id = R.drawable.usa_flag),
+                                    contentDescription = "",
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                                Column(verticalArrangement = Arrangement.Center) {
+                                    Text(text = it, fontSize = 16.sp, fontWeight = FontWeight.W400)
+                                    Text(
+                                        text = "Currency",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.W400,
+                                        color = Color.LightGray
+                                    )
+                                }
+                                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
+                                    IconButton(onClick = { isAdded = !isAdded }) {
+                                        if (isAdded) {
+                                            Icon(Icons.Filled.CheckCircle, contentDescription = "")
+                                        } else {
+                                            Icon(
+                                                painterResource(id = R.drawable.not_selected_icon),
+                                                contentDescription = ""
+                                            )
+                                        }
+                                    }
+                                }
+
+                            }
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp), color = Color.LightGray
+                            )
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+}
+
+
+@Composable
+fun FavoritesComponents (viewModel: HomeViewModel) {
+    var isClicked by remember { mutableStateOf(false) }
+
+    Column(modifier = Modifier
+        .background(Color.White)
+        .padding(bottom = 16.dp)) {
+
+        Row {
+            Text(
+                text = "live exchange rates",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+                color = Color.DarkGray,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+
+            Button(onClick = {isClicked = true} ,
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .wrapContentWidth(),
+                border = BorderStroke(1.dp, color = Color.Black),
+                shape = RoundedCornerShape(18.dp),
+                colors = ButtonDefaults.buttonColors(Color.White)) {
+                Image(painter = painterResource(id = R.drawable.add_icon), contentDescription = "")
+                Text(
+                    text = "Add to Favorites",
+                    color = Color.DarkGray,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.W500
+                )
+            }
+            DialogueFavoritesList(isClicked, onDismiss = { isClicked = false })
+        }
     }
 }
 
