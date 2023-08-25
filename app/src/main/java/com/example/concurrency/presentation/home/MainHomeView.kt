@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.unit.dp
@@ -32,9 +33,11 @@ fun MainHomeView(homeViewModel: HomeViewModel) {
     LazyColumn(Modifier.padding(horizontal = 20.dp)) {
         item {
             CurrencyConverterCard(homeViewModel)
-            Divider(modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp), color = Color.LightGray)
+            Divider(modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 32.dp), color = Color.LightGray)
             FavoritesComponents(homeViewModel)
-            Text(text = "My Portfolio", fontWeight = W700, modifier = Modifier.padding(bottom = 16.dp))
+            Text(text = stringResource(id = R.string.myPortfolio), fontWeight = W700, modifier = Modifier.padding(bottom = 16.dp))
         }
         val list = listOf("USD", "EUR", "GBP", "JPY")
 
@@ -64,7 +67,9 @@ fun MainHomeView(homeViewModel: HomeViewModel) {
                     modifier = Modifier.padding(start = 120.dp)
                 )
             }
-            Divider(modifier =  Modifier.fillMaxWidth().padding(vertical = 8.dp), color = Color.LightGray)
+            Divider(modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp), color = Color.LightGray)
         }
     }
 }

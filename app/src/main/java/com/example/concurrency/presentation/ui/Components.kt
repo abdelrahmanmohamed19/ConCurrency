@@ -357,7 +357,7 @@ fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
                 ) {
                     Row {
                         Text(
-                            text = "Add to Favorites",
+                            text = stringResource(id = R.string.myFavorites),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W700,
                             color = Color.Black,
@@ -434,7 +434,7 @@ fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
 
             Row {
                 Text(
-                    text = "live exchange rates",
+                    text = stringResource(id = R.string.liveExchangRates),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W600,
                     color = Color.DarkGray,
@@ -453,7 +453,7 @@ fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
                         contentDescription = ""
                     )
                     Text(
-                        text = "Add to Favorites",
+                        text = stringResource(id = R.string.addFavorites),
                         color = Color.DarkGray,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(start = 4.dp),

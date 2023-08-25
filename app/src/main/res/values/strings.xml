@@ -8,4 +8,8 @@
     <string name="cardTitleSecond">Check live foreign currency exchange rates</string>
     <string name="compare">Compare</string>
     <string name="targetCurrency">Targeted currency</string>
+    <string name="liveExchangRates">live exchange rates</string>
+    <string name="addFavorites">Add to Favorites</string>
+    <string name="myFavorites">My Favorites</string>
+    <string name="myPortfolio">My Portfolio</string>
 </resources>

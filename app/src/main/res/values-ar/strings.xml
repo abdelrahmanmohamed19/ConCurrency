@@ -9,4 +9,8 @@
     <string name="cardTitleSecond">تحقق من أسعار صرف العملات الأجنبية الحالية</string>
     <string name="compare">مقارنة</string>
     <string name="targetCurrency">العملة المستهدفة</string>
+    <string name="liveExchangRates">اسعار الصرف الحاليه</string>
+    <string name="addFavorites">اضافة الي المفضلات</string>
+    <string name="myFavorites">مفضلاتي</string>
+    <string name="myPortfolio">المفضلات</string>
 </resources>
