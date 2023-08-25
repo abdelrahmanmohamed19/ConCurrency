@@ -48,7 +48,7 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
             DropDownList(
                 allCurrency = state.allCurrencys,
                 selectedItem = state.baseCurrency,
-                expanded = state.isShowDialog,
+                expanded = state.isBaseDropDownExpend,
                 onDropDownClick = {viewModel.onBaseDropDownListClick()},
                 onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
                 onDropDownSelectedItem = {selectedCurrency -> viewModel.onBaseCurrencyChange(selectedCurrency)},
@@ -65,7 +65,7 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
             DropDownList(
                 allCurrency = state.allCurrencys,
                 selectedItem = state.targetCurrency,
-                expanded = state.isShowDialog,
+                expanded = state.isTargetDropDownExpend,
                 onDropDownClick = {viewModel.onTargetDropDownListClick()},
                 onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
                 onDropDownSelectedItem = {selectedCurrency -> viewModel.onTargetCurrencyChange(selectedCurrency)},
