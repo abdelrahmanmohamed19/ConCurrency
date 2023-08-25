@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -324,12 +323,22 @@ fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Un
 
 @Composable
 fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
-    val list = listOf("USD", "EUR", "GBP", "JPY")
+    val list = listOf(
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound",
+        "EGP - Egyptian Pound"
+    )
     var isAdded by remember { mutableStateOf(false) }
 
     if (isSelected) {
-        Dialog(onDismissRequest = {onDismiss.invoke()}){
-            Column(Modifier.fillMaxSize()) {
+        Dialog(onDismissRequest = { onDismiss.invoke() }) {
+            Column(Modifier.height(800.dp)) {
                 Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.fillMaxWidth()) {
                     IconButton(
                         onClick = { /*TODO*/ },
@@ -342,9 +351,26 @@ fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
                 Card(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(8.dp)
+                    elevation = CardDefaults.cardElevation(8.dp),
+                    colors = CardDefaults.cardColors(Color.White)
+
                 ) {
-                    Text(text = "Add to Favorites" , fontSize = 18.sp ,fontWeight = FontWeight.W700, color = Color.Black , modifier = Modifier.padding(start = 8.dp ,top = 12.dp , bottom = 12.dp))
+                    Row {
+                        Text(
+                            text = "Add to Favorites",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.W700,
+                            color = Color.Black,
+                            modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 12.dp)
+                        )
+                        Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd) {
+                            IconButton(onClick = { onDismiss.invoke() }) {
+                                Icon(Icons.Filled.Clear, contentDescription = "")
+                            }
+                        }
+                    }
+
+
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -366,6 +392,7 @@ fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
                                         color = Color.LightGray
                                     )
                                 }
+
                                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
                                     IconButton(onClick = { isAdded = !isAdded }) {
                                         if (isAdded) {
@@ -392,47 +419,54 @@ fun DialogueFavoritesList(isSelected : Boolean , onDismiss : () -> Unit) {
             }
         }
     }
-
 }
 
 
-@Composable
-fun FavoritesComponents (viewModel: HomeViewModel) {
-    var isClicked by remember { mutableStateOf(false) }
+    @Composable
+    fun FavoritesComponents(viewModel: HomeViewModel) {
+        var isClicked by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier
-        .background(Color.White)
-        .padding(bottom = 16.dp)) {
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .padding(bottom = 16.dp)
+        ) {
 
-        Row {
-            Text(
-                text = "live exchange rates",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W600,
-                color = Color.DarkGray,
-                modifier = Modifier.padding(top = 12.dp)
-            )
-
-            Button(onClick = {isClicked = true} ,
-                modifier = Modifier
-                    .padding(start = 12.dp)
-                    .wrapContentWidth(),
-                border = BorderStroke(1.dp, color = Color.Black),
-                shape = RoundedCornerShape(18.dp),
-                colors = ButtonDefaults.buttonColors(Color.White)) {
-                Image(painter = painterResource(id = R.drawable.add_icon), contentDescription = "")
+            Row {
                 Text(
-                    text = "Add to Favorites",
+                    text = "live exchange rates",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W600,
                     color = Color.DarkGray,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(start = 4.dp),
-                    fontWeight = FontWeight.W500
+                    modifier = Modifier.padding(top = 12.dp)
                 )
+
+                Button(onClick = { isClicked = true },
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .wrapContentWidth(),
+                    border = BorderStroke(1.dp, color = Color.Black),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(Color.White)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.add_icon),
+                        contentDescription = ""
+                    )
+                    Text(
+                        text = "Add to Favorites",
+                        color = Color.DarkGray,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(start = 4.dp),
+                        fontWeight = FontWeight.W500
+                    )
+                }
+                Box(contentAlignment = Alignment.Center) {
+                    DialogueFavoritesList(isClicked, onDismiss = { isClicked = false })
+                }
+
             }
-            DialogueFavoritesList(isClicked, onDismiss = { isClicked = false })
         }
     }
-}
 
 
 
