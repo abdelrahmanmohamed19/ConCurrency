@@ -28,7 +28,7 @@ import com.example.concurrency.presentation.ui.UserEditText
 
 @Composable
 fun CurrencyConverterCard (viewModel: HomeViewModel) {
-    var show by remember { mutableStateOf(false) }
+    val state = viewModel.state.value
 
     Column {
         Row {
@@ -37,9 +37,23 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
             MyTextTitle(text = stringResource(R.string.from), 0, Modifier.weight(0.60f))
         }
         Row {
-            UserEditText(20, modifier = Modifier.weight(0.40f))
+            UserEditText(
+                amount = state.amount,
+                amountErrorMessage  = state.amountErrorMessage,
+                isAmountError = state.isAmountError,
+                onAmountChange = {newAmount -> viewModel.onAmountChange(newAmount)},
+                paddingTop = 20,
+                modifier = Modifier.weight(0.40f))
             Spacer(modifier = Modifier.width(10.dp))
-            DropDownList(20, modifier = Modifier.weight(0.60f))
+            DropDownList(
+                allCurrency = state.allCurrencys,
+                selectedItem = state.baseCurrency,
+                expanded = state.isBaseDropDownExpend,
+                onDropDownClick = {viewModel.onBaseDropDownListClick()},
+                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
+                onDropDownSelectedItem = {selectedCurrency -> viewModel.onBaseCurrencyChange(selectedCurrency)},
+                paddingTop = 20,
+                modifier = Modifier.weight(0.60f))
         }
 
         Row {
@@ -48,16 +62,24 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
             MyTextTitle(text = stringResource(R.string.amount), 20, Modifier.weight(0.40f))
         }
         Row {
-            DropDownList(20, Modifier.weight(0.60f))
+            DropDownList(
+                allCurrency = state.allCurrencys,
+                selectedItem = state.targetCurrency,
+                expanded = state.isTargetDropDownExpend,
+                onDropDownClick = {viewModel.onTargetDropDownListClick()},
+                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
+                onDropDownSelectedItem = {selectedCurrency -> viewModel.onTargetCurrencyChange(selectedCurrency)},
+                paddingTop = 20,
+                Modifier.weight(0.60f))
             Spacer(modifier = Modifier.width(10.dp))
-            ResultView("1", 20, Modifier.weight(0.40f))
+            ResultView(state.resultTarget, 20, Modifier.weight(0.40f))
         }
 
         ButtonClickOn(
             buttonText = stringResource(R.string.convert),
             paddingTopValue = 40
         ) {
-            show = show.not()
+           viewModel.onConvertClick()
         }
     }
 
