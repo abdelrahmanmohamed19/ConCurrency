@@ -61,6 +61,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.concurrency.R
 import com.example.concurrency.presentation.Currency
 import com.example.concurrency.presentation.home.HomeViewModel
@@ -225,9 +230,6 @@ fun CardDropDown(currency: Currency) {
 }
 
 
-
-
-
 @Composable
 fun DropDownText(text:String, modifier: Modifier) {
     Column(modifier = modifier) {
@@ -263,9 +265,6 @@ fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifie
 
     )
 }
-
-
-
 
 
 @Composable
@@ -377,10 +376,6 @@ fun FavoritesComponents(homeViewModel: HomeViewModel) {
 }
 
 
-
-
-
-
 @Composable
 fun DialogueFavoritesList(
     currencyList:List<Currency>,
@@ -482,4 +477,27 @@ fun DialogueFavoritesList(
 
 
 
+@Composable
+fun LottieAnimationShow(animationResId: Int, size:Int, padding:Int) {
 
+
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(animationResId)
+    )
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true,
+        speed = 1f,
+        restartOnPlay = false
+
+    )
+
+    LottieAnimation(
+        composition,
+        progress,
+        modifier = Modifier.padding(top = padding.dp).size(size.dp),
+    )
+
+
+}

@@ -13,7 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val lightBackground = Color(0xFFFFFFFF)
 
-val TextColorWhite = Color(0xFFFFFFFF)
+val TextSplash = Color(0xFFAA9988)
 
 // Card Colors
 val CardBackground = Color(0xFFFFFFFF)

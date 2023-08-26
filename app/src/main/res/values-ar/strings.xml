@@ -5,7 +5,7 @@
     <string name="from">من</string>
     <string name="to">الي</string>
     <string name="convert">تحويل</string>
-    <string name="cardTitleFirst">محول العملات</string>
+    <string name="currencyConverter">محول العملات</string>
     <string name="cardTitleSecond">تحقق من أسعار صرف العملات الأجنبية الحالية</string>
     <string name="compare">مقارنة</string>
     <string name="targetCurrency">العملة المستهدفة</string>

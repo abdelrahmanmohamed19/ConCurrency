@@ -4,7 +4,7 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="convert">Convert</string>
-    <string name="cardTitleFirst">Currency converter</string>
+    <string name="currencyConverter">Currency converter</string>
     <string name="cardTitleSecond">Check live foreign currency exchange rates</string>
     <string name="compare">Compare</string>
     <string name="targetCurrency">Targeted currency</string>

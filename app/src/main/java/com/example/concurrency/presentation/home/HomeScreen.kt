@@ -41,25 +41,78 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.em
 import androidx.core.app.ActivityCompat.finishAffinity
 import com.example.concurrency.data.Constants
 import com.example.concurrency.presentation.compare.CompareViewModel
 import com.example.concurrency.presentation.ui.AppNavigation
+import com.example.concurrency.presentation.ui.LottieAnimationShow
 import com.example.concurrency.ui.theme.CardTextColor
 import com.example.concurrency.ui.theme.SelectedTab
+import com.example.concurrency.ui.theme.TextSplash
 import com.example.concurrency.ui.theme.UnSelectedTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun AppHomeScreen(homeViewModel: HomeViewModel , compareViewModel: CompareViewModel) {
-    TopAppScreen()
-    HomeContentScreen(homeViewModel, compareViewModel)
+
+    var isSplashScreenVisible by remember { mutableStateOf(true) }
+    if (isSplashScreenVisible) {
+        SplashScreen()
+    }
+    else{
+        TopAppScreen()
+        HomeContentScreen(homeViewModel, compareViewModel)
+
+    }
+    LaunchedEffect(Unit) {
+        delay(4.seconds)
+        isSplashScreenVisible = false
+    }
+
+
+
 }
+
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun SplashScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize().background(Color.Black),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ){
+        Text(
+            text = stringResource(id = R.string.app_name),
+            fontSize = 36.sp,
+            color = TextSplash,
+            modifier = Modifier.padding(top = 250.dp)
+        )
+        Text(
+            text = stringResource(id = R.string.currencyConverter),
+            fontSize = 24.sp,
+            color = TextSplash,
+            letterSpacing = 0.2.em,
+            modifier = Modifier.padding(top = 10.dp)
+        )
+
+        LottieAnimationShow(R.raw.loading,200,250)
+
+    }
+}
+
+
+
+
 
 @Composable
 fun TopAppScreen() {
