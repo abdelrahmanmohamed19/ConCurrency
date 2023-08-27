@@ -1,33 +1,28 @@
-package com.example.concurrency.presentation.home
+package com.example.concurrency.presentation.convert
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.concurrency.R
+import com.example.concurrency.presentation.favorites.FavoritesViewModel
 import com.example.concurrency.presentation.ui.ButtonClickOn
 import com.example.concurrency.presentation.ui.DropDownList
 import com.example.concurrency.presentation.ui.MyTextTitle
 import com.example.concurrency.presentation.ui.ResultView
 import com.example.concurrency.presentation.ui.UserEditText
+import kotlinx.coroutines.GlobalScope
 
 @Composable
-fun CurrencyConverterCard (viewModel: HomeViewModel) {
+fun CurrencyConverterCard (viewModel: ConvertViewModel, favoritesViewModel: FavoritesViewModel) {
     val state = viewModel.state.value
 
     Column {
@@ -39,23 +34,28 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
         Row {
             UserEditText(
                 amount = state.amount,
-                amountErrorMessage  = state.amountErrorMessage,
                 isAmountError = state.isAmountError,
+                errorMessage = state.amountErrorMessage,
                 onAmountChange = {newAmount -> viewModel.onAmountChange(newAmount)},
                 paddingTop = 20,
                 modifier = Modifier.weight(0.40f))
             Spacer(modifier = Modifier.width(10.dp))
             DropDownList(
-                allCurrency = state.allCurrencys,
+                allCurrency = state.allCurrencies ,
                 selectedItem = state.baseCurrency,
                 expanded = state.isBaseDropDownExpend,
                 onDropDownClick = {viewModel.onBaseDropDownListClick()},
                 onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
-                onDropDownSelectedItem = {selectedCurrency -> viewModel.onBaseCurrencyChange(selectedCurrency)},
+                onDropDownSelectedItem = {selectedCurrency -> viewModel.onBaseCurrencyChange(selectedCurrency)
+                    favoritesViewModel.getExchangeRates(state.baseCurrency.currencyCode.toString())},
                 paddingTop = 20,
                 modifier = Modifier.weight(0.60f))
         }
-
+        Row {
+            AnimatedVisibility(visible = state.amountErrorMessage != "" ) {
+                Text(text = state.amountErrorMessage, fontSize = 12.sp, color = Color.Red)
+            }
+        }
         Row {
             MyTextTitle(text = stringResource(R.string.to), 20, Modifier.weight(0.60f))
             Spacer(modifier = Modifier.width(10.dp))
@@ -63,7 +63,7 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
         }
         Row {
             DropDownList(
-                allCurrency = state.allCurrencys,
+                allCurrency = state.allCurrencies,
                 selectedItem = state.targetCurrency,
                 expanded = state.isTargetDropDownExpend,
                 onDropDownClick = {viewModel.onTargetDropDownListClick()},
@@ -79,7 +79,8 @@ fun CurrencyConverterCard (viewModel: HomeViewModel) {
             buttonText = stringResource(R.string.convert),
             paddingTopValue = 40
         ) {
-           viewModel.onConvertClick()
+            viewModel.onConvertClick()
+
         }
     }
 

@@ -1,13 +1,11 @@
-package com.example.concurrency.presentation.home
+package com.example.concurrency.presentation.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,32 +26,36 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.concurrency.R
-import com.example.concurrency.presentation.ui.FavoritesComponents
+import com.example.concurrency.presentation.convert.ConvertViewModel
+import com.example.concurrency.presentation.convert.CurrencyConverterCard
+import com.example.concurrency.presentation.favorites.FavoritesViewModel
 
 
 @Composable
-fun MainHomeView(homeViewModel: HomeViewModel) {
-
+fun MainHomeView(convertViewModel: ConvertViewModel , favoritesViewModel: FavoritesViewModel) {
 
     LazyColumn(Modifier.padding(horizontal = 20.dp)) {
         item {
-            CurrencyConverterCard(homeViewModel)
+            CurrencyConverterCard(convertViewModel , favoritesViewModel)
             Divider(modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 32.dp), color = Color.LightGray)
-            FavoritesComponents(homeViewModel)
+            FavoritesComponents(favoritesViewModel)
+            favoritesViewModel.getExchangeRates(convertViewModel.state.value.baseCurrency.currencyCode.toString())
             Text(text = stringResource(id = R.string.myPortfolio), fontWeight = W700, modifier = Modifier.padding(bottom = 16.dp))
         }
 
-        items(homeViewModel.state.value.allFavoriteCurrencys) {currency ->
+        items(favoritesViewModel.myFavoriteList.value) {currency ->
             Row {
                 AsyncImage(
-                    model = currency.currencyImageLink,
+                    model = currency.flag,
                     modifier = Modifier
                         .size(40.dp)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .border(1.dp, color = Color.Black, shape = RoundedCornerShape(20.dp)),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Country Image",
                     error = painterResource(id = R.drawable.placeholder),
@@ -61,20 +63,22 @@ fun MainHomeView(homeViewModel: HomeViewModel) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(verticalArrangement = Arrangement.Center) {
-                    Text(text = currency.currencyCode, fontSize = 16.sp, fontWeight = W400)
-                    Text(
-                        text = currency.currencyName,
-                        fontSize = 12.sp,
-                        fontWeight = W400,
-                        color = Color.LightGray
-                    )
+                    currency.currencyCode?.let { Text(text = it, fontSize = 16.sp, fontWeight = W400) }
+                    currency.currencyName?.let {
+                        Text(
+                            text = it,
+                            fontSize = 12.sp,
+                            fontWeight = W400,
+                            color = Color.LightGray
+                        )
+                    }
                 }
-
+                Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = currency.result,
+                    text = currency.amount,
                     fontSize = 18.sp,
                     fontWeight = W700,
-                    modifier = Modifier.padding(start = 120.dp)
+                    modifier = Modifier.padding(end = 10.dp)
                 )
             }
             Divider(modifier = Modifier

@@ -6,23 +6,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.concurrency.presentation.Currency
-import com.example.concurrency.presentation.allCurrency
+import androidx.lifecycle.viewModelScope
+import com.example.concurrency.data.remote.dto.CompareRequestBody
+import com.example.concurrency.data.remote.dto.CurrencyInfo
+import com.example.concurrency.domain.repository.CompareRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CompareViewModel : ViewModel() {
 
-    private var _state by mutableStateOf(
-        CompareState()
-    )
+@HiltViewModel
+class CompareViewModel @Inject constructor(private val repo : CompareRepository): ViewModel() {
+
+    private var _state by mutableStateOf( CompareState() )
 
     init {
-        _state =  _state.copy(
-            allCurrencys = allCurrency,
-            baseCurrency = allCurrency[0], // make init first item in get list of currency
-            firstTargetCurrency = allCurrency[1],
-           secondTargetCurrency =  allCurrency[2],
-        )
+      getAllCurrencies()
     }
+
     val state:State<CompareState>
         get() =  derivedStateOf{_state}
 
@@ -64,25 +66,34 @@ class CompareViewModel : ViewModel() {
             isSecondTargetDropDownExpend = false
         )
     }
-    fun onBaseCurrencyChange(currency:Currency){
+    fun onBaseCurrencyChange(currency: CurrencyInfo){
         _state =  _state.copy(
             baseCurrency = currency
         )
     }
-    fun onFirstTargetCurrencyChange(currency:Currency){
+    fun onFirstTargetCurrencyChange(currency: CurrencyInfo){
         _state =  _state.copy(
             firstTargetCurrency = currency
         )
     }
 
-    fun onSecondTargetCurrencyChange(currency:Currency){
+    fun onSecondTargetCurrencyChange(currency: CurrencyInfo){
         _state =  _state.copy(
             secondTargetCurrency = currency
         )
     }
 
     fun onCompareClick(){
-        // here use api to calculate amount base/target1/target2/amount
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repo.compare(compareRequestBody = CompareRequestBody(_state.baseCurrency.currencyCode !!,_state.firstTargetCurrency.currencyCode !!,_state.secondTargetCurrency.currencyCode !!,_state.amount))
+            _state = _state.copy(firstResultTarget = result.firstTargetResult.toString() , secondResultTarget = result.secondTargetResult.toString())
+        }
+    }
 
+    private fun getAllCurrencies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = repo.getAllCurrencies().value
+            _state = _state.copy( allCurrencies = list , baseCurrency = list[0]!! , firstTargetCurrency = list[0]!! , secondTargetCurrency = list[0] !!)
+        }
     }
 }

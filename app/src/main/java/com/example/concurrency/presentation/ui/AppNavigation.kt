@@ -7,17 +7,17 @@ import androidx.navigation.compose.rememberNavController
 import com.example.concurrency.presentation.compare.CurrencyCompareScreen
 import com.example.concurrency.data.Constants
 import com.example.concurrency.presentation.compare.CompareViewModel
-import com.example.concurrency.presentation.home.HomeViewModel
-import com.example.concurrency.presentation.home.MainHomeView
+import com.example.concurrency.presentation.convert.ConvertViewModel
+import com.example.concurrency.presentation.favorites.FavoritesViewModel
 
 
 @Composable
-fun AppNavigation(route: String, homeViewModel : HomeViewModel , compareViewModel: CompareViewModel ) {
+fun AppNavigation(route: String, favoritesViewModel : FavoritesViewModel, convertViewModel: ConvertViewModel ,compareViewModel: CompareViewModel ) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = route){
 
         composable(route = Constants.convertRoute){
-           MainHomeView(homeViewModel)
+           MainHomeView(convertViewModel, favoritesViewModel)
         }
         composable(route = Constants.compareRoute){
             CurrencyCompareScreen(compareViewModel)

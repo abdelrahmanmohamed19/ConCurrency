@@ -2,12 +2,14 @@ package com.example.concurrency.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.concurrency.data.local.FavoritesCurrenciesDao
 import com.example.concurrency.data.local.FavoritesCurrenciesDatabase
 import com.example.concurrency.data.remote.ApiServices
 import com.example.concurrency.data.repository.CompareRepositoryImpl
 import com.example.concurrency.data.repository.FavoritesCurrenciesRepositoryImpl
-import com.example.concurrency.data.repository.HomeRepositoryImpl
+import com.example.concurrency.data.repository.ConvertRepositoryImpl
+import com.example.concurrency.domain.repository.CompareRepository
+import com.example.concurrency.domain.repository.ConvertRepository
+import com.example.concurrency.domain.repository.FavoritesCurrenciesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +35,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit (): Retrofit = Retrofit.Builder().baseUrl("").addConverterFactory(GsonConverterFactory.create()).build()
+    fun providesRetrofit (): Retrofit = Retrofit.Builder().baseUrl("https://allcurrency-5081e-default-rtdb.firebaseio.com/").addConverterFactory(GsonConverterFactory.create()).build()
 
     @Provides
     @Singleton
@@ -41,15 +43,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideHomeRepository () = HomeRepositoryImpl(providesApiServices())
+    fun provideConvertRepository () : ConvertRepository = ConvertRepositoryImpl(providesApiServices())
 
     @Provides
     @Singleton
-    fun provideCompareRepository () = CompareRepositoryImpl(providesApiServices())
+    fun provideCompareRepository ()  : CompareRepository = CompareRepositoryImpl(providesApiServices())
 
     @Provides
     @Singleton
-    fun provideFavoritesCurrenciesRepository (@ApplicationContext context: Context) = FavoritesCurrenciesRepositoryImpl(providesDatabaseDao(providesDatabase(context))
-    )
+    fun provideFavoritesCurrenciesRepository (@ApplicationContext context: Context) : FavoritesCurrenciesRepository = FavoritesCurrenciesRepositoryImpl(providesDatabaseDao(providesDatabase(context)),
+    providesApiServices())
 
 }

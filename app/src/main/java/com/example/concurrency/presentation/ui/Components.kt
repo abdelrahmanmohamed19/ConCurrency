@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -67,8 +68,9 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.concurrency.R
-import com.example.concurrency.presentation.Currency
-import com.example.concurrency.presentation.home.HomeViewModel
+import com.example.concurrency.data.local.FavoritesCurrencies
+import com.example.concurrency.data.remote.dto.CurrencyInfo
+import com.example.concurrency.presentation.favorites.FavoritesViewModel
 
 
 @Composable
@@ -88,9 +90,9 @@ fun MyTextTitle(text:String,paddingTop:Int,modifier: Modifier) {
 @Composable
 fun UserEditText(
     amount:String,
-    amountErrorMessage:String,
     isAmountError:Boolean,
     onAmountChange:(String)->Unit,
+    errorMessage : String,
     paddingTop: Int = 0,
     modifier: Modifier) {
     val customColors = TextFieldDefaults.outlinedTextFieldColors(
@@ -134,12 +136,12 @@ fun UserEditText(
 
 @Composable
 fun DropDownList(
-    allCurrency: List<Currency>,
-    selectedItem:Currency,
+    allCurrency: List<CurrencyInfo?>,
+    selectedItem: CurrencyInfo,
     expanded:Boolean,
     onDropDownClick:()->Unit,
     onDropDownDismissClick:()->Unit,
-    onDropDownSelectedItem:(Currency)->Unit,
+    onDropDownSelectedItem:(CurrencyInfo)->Unit,
     paddingTop: Int = 0,
     modifier: Modifier
 ) {
@@ -170,12 +172,12 @@ fun DropDownList(
             )
             {
                 CountryImage(
-                    link = selectedItem.currencyImageLink,
+                    link = selectedItem.flagUrl !!,
                     modifier = Modifier.weight(0.30f)
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 DropDownText(
-                    text = selectedItem.currencyCode,
+                    text = selectedItem.currencyCode !!,
                     modifier = Modifier.weight(0.55f)
                 )
                 CurrencyIcon(
@@ -197,11 +199,11 @@ fun DropDownList(
                    allCurrency.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
-                               onDropDownSelectedItem(item)
+                               onDropDownSelectedItem(item !!)
                                 onDropDownDismissClick()
                             },
                             text = {
-                                CardDropDown(item)
+                                CardDropDown(item !!)
                             }
                         )
                     }
@@ -212,17 +214,17 @@ fun DropDownList(
     }
 
 @Composable
-fun CardDropDown(currency: Currency) {
+fun CardDropDown(currency: CurrencyInfo) {
     Row(
         modifier = Modifier.background(CardComponentBackground)
 
     ){
         CountryImage(
-            link =  currency.currencyImageLink,
+            link =  currency.flagUrl !!,
             modifier = Modifier.width(30.dp))
         Spacer(modifier = Modifier.width(5.dp))
         Text(
-            text = "${currency.currencyCode} - ${   currency.currencyName}",
+            text = "${currency.currencyCode} - ${   currency.name}",
             color = CardTextColor,
             fontSize = 12.sp
         )
@@ -326,7 +328,7 @@ fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Un
 
 
 @Composable
-fun FavoritesComponents(homeViewModel: HomeViewModel) {
+fun FavoritesComponents(homeViewModel: FavoritesViewModel) {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -336,7 +338,7 @@ fun FavoritesComponents(homeViewModel: HomeViewModel) {
         Row {
             Text(
                 text = stringResource(id = R.string.liveExchangRates),
-                fontSize = 12.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.W600,
                 color = Color.DarkGray,
                 modifier = Modifier.padding(top = 12.dp)
@@ -364,11 +366,10 @@ fun FavoritesComponents(homeViewModel: HomeViewModel) {
             }
             Box(contentAlignment = Alignment.Center) {
                 DialogueFavoritesList(
-                    currencyList = homeViewModel.state.value.allCurrencys,
+                    currencyList = homeViewModel.state.value.allCurrencies !! ,
                     isShowDialog = homeViewModel.state.value.isShowDialog,
-                    onSelectFavoriteCurrency = {selectedCurrency -> homeViewModel.onSelectFavoriteCurrency(selectedCurrency)},
-                    onDialogDismiss = {homeViewModel.onCloseMyFavorite()}
-                )
+                    onSelectFavoriteCurrency = { selectedCurrency -> homeViewModel.onSelectFavoriteCurrency(selectedCurrency)}
+                ) { homeViewModel.onCloseMyFavorite() }
             }
 
         }
@@ -378,10 +379,10 @@ fun FavoritesComponents(homeViewModel: HomeViewModel) {
 
 @Composable
 fun DialogueFavoritesList(
-    currencyList:List<Currency>,
-    isShowDialog : Boolean,
-    onSelectFavoriteCurrency:(Currency)->Unit,
-    onDialogDismiss : () -> Unit
+    currencyList: List<CurrencyInfo?>,
+    isShowDialog: Boolean,
+    onSelectFavoriteCurrency:(CurrencyInfo)->Unit,
+    onDialogDismiss: () -> Unit
 ) {
 
     if (isShowDialog) {
@@ -419,13 +420,14 @@ fun DialogueFavoritesList(
                             .fillMaxWidth()
                             .padding(top = 8.dp, start = 8.dp)
                     ) {
-                        items(currencyList) { item->
+                        itemsIndexed(currencyList) { index , item->
                             Row {
                                 AsyncImage(
-                                    model = item.currencyImageLink,
+                                    model = item?.flagUrl,
                                     modifier = Modifier
                                         .size(40.dp)
-                                        .clip(CircleShape),
+                                        .clip(CircleShape)
+                                        .border(1.dp,color=Color.Black, shape = RoundedCornerShape(20.dp)),
                                     contentScale = ContentScale.Crop,
                                     contentDescription = "Country Image",
                                     error = painterResource(id = R.drawable.placeholder),
@@ -433,18 +435,20 @@ fun DialogueFavoritesList(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Column(verticalArrangement = Arrangement.Center) {
-                                    Text(text = item.currencyCode, fontSize = 16.sp, fontWeight = FontWeight.W400)
-                                    Text(
-                                        text =  item.currencyName,
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.W400,
-                                        color = Color.LightGray
-                                    )
+                                    item?.currencyCode?.let { Text(text = it, fontSize = 16.sp, fontWeight = FontWeight.W400) }
+                                    item?.name?.let {
+                                        Text(
+                                            text = it,
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.W400,
+                                            color = Color.LightGray
+                                        )
+                                    }
                                 }
 
                                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
-                                    IconButton(onClick = { onSelectFavoriteCurrency(item)}) {
-                                        if (item.isFavorite) {
+                                    IconButton(onClick = { onSelectFavoriteCurrency(item !!)}) {
+                                        if (item?.isFavourite !!) {
                                             Icon(
                                                 Icons.Filled.CheckCircle,
                                                 contentDescription = "",

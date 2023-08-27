@@ -1,4 +1,4 @@
-package com.example.concurrency.presentation.home
+package com.example.concurrency.presentation.ui
 
 import android.os.Handler
 import android.widget.Toast
@@ -23,11 +23,8 @@ import com.example.concurrency.R
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
@@ -47,8 +44,8 @@ import androidx.compose.ui.unit.em
 import androidx.core.app.ActivityCompat.finishAffinity
 import com.example.concurrency.data.Constants
 import com.example.concurrency.presentation.compare.CompareViewModel
-import com.example.concurrency.presentation.ui.AppNavigation
-import com.example.concurrency.presentation.ui.LottieAnimationShow
+import com.example.concurrency.presentation.convert.ConvertViewModel
+import com.example.concurrency.presentation.favorites.FavoritesViewModel
 import com.example.concurrency.ui.theme.CardTextColor
 import com.example.concurrency.ui.theme.SelectedTab
 import com.example.concurrency.ui.theme.TextSplash
@@ -62,7 +59,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun AppHomeScreen(homeViewModel: HomeViewModel , compareViewModel: CompareViewModel) {
+fun AppHomeScreen(favoritesViewModel: FavoritesViewModel, convertViewModel: ConvertViewModel , compareViewModel: CompareViewModel) {
 
     var isSplashScreenVisible by remember { mutableStateOf(true) }
     if (isSplashScreenVisible) {
@@ -70,7 +67,7 @@ fun AppHomeScreen(homeViewModel: HomeViewModel , compareViewModel: CompareViewMo
     }
     else{
         TopAppScreen()
-        HomeContentScreen(homeViewModel, compareViewModel)
+        HomeContentScreen(favoritesViewModel , convertViewModel, compareViewModel)
 
     }
     LaunchedEffect(Unit) {
@@ -148,7 +145,11 @@ fun TopAppScreen() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomeContentScreen(homeViewModel: HomeViewModel , compareViewModel: CompareViewModel) {
+fun HomeContentScreen(
+    favoritesViewModel: FavoritesViewModel,
+    convertViewModel: ConvertViewModel,
+    compareViewModel: CompareViewModel
+) {
     var doubleBackToExitPressedOnce = false
     val activity = LocalOnBackPressedDispatcherOwner.current as ComponentActivity
     val context = LocalContext.current
@@ -172,7 +173,7 @@ fun HomeContentScreen(homeViewModel: HomeViewModel , compareViewModel: CompareVi
                     .fillMaxWidth()
                     .padding(top = 50.dp)
             ){
-                AppNavigation(tabItem[index], homeViewModel , compareViewModel )
+                AppNavigation(tabItem[index], favoritesViewModel , convertViewModel , compareViewModel )
             }
         }
 
