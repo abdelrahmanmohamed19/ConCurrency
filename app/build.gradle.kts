@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("com.google.android.gms:play-services-tagmanager-v4-impl:18.0.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -94,6 +95,17 @@ dependencies {
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
-    //ConstraintLayout
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // tab layout
+    implementation ("com.google.accompanist:accompanist-pager:0.21.0-beta")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.21.0-beta")
+    implementation("androidx.compose.foundation:foundation:1.0.4")
+
+    // lottie animation
+    implementation("com.airbnb.android:lottie-compose:6.1.0")
+
+
 }
