@@ -61,7 +61,7 @@ width="200"
 width="200"
     hspace="10" vspace="10">](/screenShots/compare.jpg)
 
-[<img src="/screenShots/favorite.jpg" align="center"
+[<img src="/screenShots/favorite.jpg" align="rigth"
 width="200"
     hspace="10" vspace="10">](/screenShots/favorite.jpg)
     [<img src="/screenShots/dialog.jpg" align="rigth"
