@@ -56,10 +56,17 @@ based on the current exchange rate.
 [<img src="/screenShots/convert.jpg" align="left"
 width="200"
     hspace="10" vspace="10">](/screenShots/convert.jpg)
+    
 [<img src="/screenShots/compare.jpg" align="center"
 width="200"
     hspace="10" vspace="10">](/screenShots/compare.jpg)
 
+[<img src="/screenShots/compare.jpg" align="center"
+width="200"
+    hspace="10" vspace="10">](/screenShots/compare.jpg)
+    [<img src="/screenShots/compare.jpg" align="center"
+width="200"
+    hspace="10" vspace="10">](/screenShots/compare.jpg)
 
 ## Permissions
 
