@@ -61,12 +61,12 @@ width="200"
 width="200"
     hspace="10" vspace="10">](/screenShots/compare.jpg)
 
-[<img src="/screenShots/compare.jpg" align="center"
+[<img src="/screenShots/favorite.jpg" align="center"
 width="200"
-    hspace="10" vspace="10">](/screenShots/compare.jpg)
-    [<img src="/screenShots/compare.jpg" align="center"
+    hspace="10" vspace="10">](/screenShots/favorite.jpg)
+    [<img src="/screenShots/dialog.jpg" align="rigth"
 width="200"
-    hspace="10" vspace="10">](/screenShots/compare.jpg)
+    hspace="10" vspace="10">](/screenShots/dialog.jpg)
 
 ## Permissions
 
