@@ -61,10 +61,10 @@ width="200"
 width="200"
     hspace="10" vspace="10">](/screenShots/compare.jpg)
 
-[<img src="/screenShots/favorite.jpg" align="rigth"
+[<img src="/screenShots/favorite.jpg" align="left"
 width="200"
     hspace="10" vspace="10">](/screenShots/favorite.jpg)
-    [<img src="/screenShots/dialog.jpg" align="rigth"
+    [<img src="/screenShots/dialog.jpg" align="center"
 width="200"
     hspace="10" vspace="10">](/screenShots/dialog.jpg)
 
