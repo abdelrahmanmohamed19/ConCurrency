@@ -14,7 +14,7 @@ The app will be developed for multiple platforms, including web, Android ,and iO
 
 The android app lets you:
 
-$\color{green}{-}$ convert between different currencies, can enter the amount they want to convert, select the source currency, and choose the target currency. The app will display the converted amount based on the current exchange rate.
++ convert between different currencies, can enter the amount they want to convert, select the source currency, and choose the target currency. The app will display the converted amount based on the current exchange rate.
 
 + compare between multiple currencies by enter the amount they want to convert, select the source currency, and choose multiple target currencies. The app will display the compared amount based on the current exchange rate.
 
