@@ -1,4 +1,4 @@
-# ConCurrency - Android App     <img height="80" src="https://user-images.githubusercontent.com/25181517/117269608-b7dcfb80-ae58-11eb-8e66-6cc8753553f0.png" />
+# ConCurrency - Android App    
 
 
 
@@ -8,8 +8,8 @@
 
 The currency conversion app aims to provide users with real-time and accurate currency
 conversion rates. It will support a wide range of currencies and offer a user-friendly interface.
-
-
+The app will be developed for multiple platforms, including web, Android  <img height="80" src="https://user-images.githubusercontent.com/25181517/117269608-b7dcfb80-ae58-11eb-8e66-6cc8753553f0.png" />,
+and iOS <img height="80" src="https://user-images.githubusercontent.com/25181517/121406611-a8246b80-c95e-11eb-9b11-b771486377f6.png" />.
 
 ## Features
 
