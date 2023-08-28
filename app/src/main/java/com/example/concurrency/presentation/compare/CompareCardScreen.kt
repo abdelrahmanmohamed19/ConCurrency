@@ -6,8 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Icon
+import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,11 +26,12 @@ import com.example.concurrency.presentation.ui.ButtonClickOn
 import com.example.concurrency.presentation.ui.DropDownList
 import com.example.concurrency.presentation.ui.MyTextTitle
 import com.example.concurrency.presentation.ui.ResultView
+import com.example.concurrency.presentation.ui.SnackbarComponent
 import com.example.concurrency.presentation.ui.UserEditText
 
 
 @Composable
-fun CurrencyCompareScreen (viewModel : CompareViewModel) {
+fun CurrencyCompareScreen(viewModel: CompareViewModel) {
     val state = viewModel.state.value
 
     Column(
@@ -43,7 +50,7 @@ fun CurrencyCompareScreen (viewModel : CompareViewModel) {
                 amount = state.amount,
                 isAmountError = state.isAmountError,
                 errorMessage = state.amountErrorMessage,
-                onAmountChange = {newAmount -> viewModel.onAmountChange(newAmount) } ,
+                onAmountChange = { newAmount -> viewModel.onAmountChange(newAmount) },
                 paddingTop = 20,
                 modifier = Modifier.weight(0.48f)
             )
@@ -52,15 +59,15 @@ fun CurrencyCompareScreen (viewModel : CompareViewModel) {
                 allCurrency = state.allCurrencies,
                 selectedItem = state.baseCurrency,
                 expanded = state.isBaseDropDownExpend,
-                onDropDownClick = {viewModel.onBaseDropDownListClick()},
-                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
-                onDropDownSelectedItem = {newCurrency -> viewModel.onBaseCurrencyChange(newCurrency)},
+                onDropDownClick = { viewModel.onBaseDropDownListClick() },
+                onDropDownDismissClick = { viewModel.onDropDownListDismiss() },
+                onDropDownSelectedItem = { newCurrency -> viewModel.onBaseCurrencyChange(newCurrency) },
                 modifier = Modifier.weight(0.48f),
                 paddingTop = 20
             )
         }
         Row {
-            AnimatedVisibility(visible = state.amountErrorMessage != "" ) {
+            AnimatedVisibility(visible = state.amountErrorMessage != "") {
                 Text(text = state.amountErrorMessage, fontSize = 12.sp, color = Color.Red)
             }
         }
@@ -86,9 +93,10 @@ fun CurrencyCompareScreen (viewModel : CompareViewModel) {
                 allCurrency = state.allCurrencies,
                 selectedItem = state.firstTargetCurrency,
                 expanded = state.isFirstTargetDropDownExpend,
-                onDropDownClick = {viewModel.onFirstDropDownListClick()},
-                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
-                onDropDownSelectedItem = {newCurrency -> viewModel.onFirstTargetCurrencyChange(newCurrency)},
+                onDropDownClick = { viewModel.onFirstDropDownListClick() },
+                onDropDownDismissClick = { viewModel.onDropDownListDismiss() },
+                onDropDownSelectedItem = { newCurrency -> viewModel.onFirstTargetCurrencyChange(newCurrency)
+                },
                 modifier = Modifier.weight(0.48f),
                 paddingTop = 20
             )
@@ -97,9 +105,13 @@ fun CurrencyCompareScreen (viewModel : CompareViewModel) {
                 allCurrency = state.allCurrencies,
                 selectedItem = state.secondTargetCurrency,
                 expanded = state.isSecondTargetDropDownExpend,
-                onDropDownClick = {viewModel.onSecondDropDownListClick()},
-                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
-                onDropDownSelectedItem = {newCurrency -> viewModel.onSecondTargetCurrencyChange(newCurrency)},
+                onDropDownClick = { viewModel.onSecondDropDownListClick() },
+                onDropDownDismissClick = { viewModel.onDropDownListDismiss() },
+                onDropDownSelectedItem = { newCurrency ->
+                    viewModel.onSecondTargetCurrencyChange(
+                        newCurrency
+                    )
+                },
                 modifier = Modifier.weight(0.48f),
                 paddingTop = 20
             )
@@ -117,5 +129,15 @@ fun CurrencyCompareScreen (viewModel : CompareViewModel) {
             viewModel.onCompareClick()
         }
 
+
+        if (!state.isNetworkAvailable) {
+               SnackbarComponent("No internet connection")
+            }
+        else if (state.errorMessage != "") {
+            SnackbarComponent(state.errorMessage)
         }
-    }
+          
+        }
+
+
+}

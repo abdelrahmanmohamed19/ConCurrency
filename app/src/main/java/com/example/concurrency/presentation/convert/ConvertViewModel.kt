@@ -1,5 +1,6 @@
 package com.example.concurrency.presentation.convert
 
+import android.net.ConnectivityManager
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -11,13 +12,12 @@ import com.example.concurrency.data.remote.dto.CurrencyInfo
 import com.example.concurrency.domain.repository.ConvertRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class ConvertViewModel @Inject constructor(private val repo : ConvertRepository)  : ViewModel() {
+class ConvertViewModel @Inject constructor(private val repo: ConvertRepository , private val connectivityManager: ConnectivityManager) : ViewModel() {
 
     private var _state by mutableStateOf(
         ConvertState()
@@ -28,16 +28,16 @@ class ConvertViewModel @Inject constructor(private val repo : ConvertRepository)
     }
 
     val state: State<ConvertState>
-        get() =  derivedStateOf{_state}
+        get() = derivedStateOf { _state }
 
-    fun onAmountChange(amount:String){
-        _state = if (amount.toDoubleOrNull() != null || amount.isEmpty()){
+    fun onAmountChange(amount: String) {
+        _state = if (amount.toDoubleOrNull() != null || amount.isEmpty()) {
             _state.copy(
                 amount = amount,
                 isAmountError = false,
                 amountErrorMessage = ""
             )
-        } else{
+        } else {
             _state.copy(
                 isAmountError = true,
                 amountErrorMessage = "Please enter a valid amount*"
@@ -45,51 +45,78 @@ class ConvertViewModel @Inject constructor(private val repo : ConvertRepository)
         }
     }
 
-    fun onBaseDropDownListClick(){
-        _state =  _state.copy(
+    fun onBaseDropDownListClick() {
+        _state = _state.copy(
             isBaseDropDownExpend = true
         )
     }
 
-    fun onTargetDropDownListClick(){
-        _state =  _state.copy(
+    fun onTargetDropDownListClick() {
+        _state = _state.copy(
             isTargetDropDownExpend = true
         )
     }
 
-    fun onDropDownListDismiss(){
-        _state =  _state.copy(
-            isBaseDropDownExpend = false ,
+    fun onDropDownListDismiss() {
+        _state = _state.copy(
+            isBaseDropDownExpend = false,
             isTargetDropDownExpend = false,
         )
     }
 
-    fun onBaseCurrencyChange(currency: CurrencyInfo){
-        _state =  _state.copy(
+    fun onBaseCurrencyChange(currency: CurrencyInfo) {
+        _state = _state.copy(
             baseCurrency = currency
         )
     }
 
-    fun onTargetCurrencyChange(currency: CurrencyInfo){
-        _state =  _state.copy(
+    fun onTargetCurrencyChange(currency: CurrencyInfo) {
+        _state = _state.copy(
             targetCurrency = currency
         )
     }
 
-    fun onConvertClick()  {
+    fun onConvertClick() {
         viewModelScope.launch(Dispatchers.IO) {
-           val result = repo.convert(_state.baseCurrency.currencyCode !!,_state.targetCurrency.currencyCode !!,_state.amount) !!
-            _state = _state.copy( resultTarget = result )
+            try{
+            checkNetworkAvailability()
+            if (_state.isNetworkAvailable){
+            val result = repo.convert(
+                _state.baseCurrency.currencyCode!!,
+                _state.targetCurrency.currencyCode!!,
+                _state.amount
+            )!!
+            _state = _state.copy(resultTarget = result)
         }
+        else {
+            _state = _state.copy(
+                resultTarget = ""
+            )
+        }
+    } catch (e: Exception) {
+        // Handle the network error, update state to show error message
+        _state = _state.copy(
+            resultTarget = "",
+            errorMessage = "Error\nsomething went wrong"
+        )
     }
+}
+}
 
     private fun getAllCurrencies() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = repo.getAllCurrencies().value
-            _state = _state.copy( allCurrencies = list , baseCurrency = list[0]!! , targetCurrency = list[0]!! )
+            _state = _state.copy(
+                allCurrencies = list,
+                baseCurrency = list[0]!!,
+                targetCurrency = list[1]!!
+            )
         }
     }
 
-
-
+    private fun checkNetworkAvailability() : Boolean {
+        val networkInfo = connectivityManager.activeNetworkInfo
+        _state =_state.copy(isNetworkAvailable =  networkInfo != null && networkInfo.isConnected)
+        return _state.isNetworkAvailable
+    }
 }

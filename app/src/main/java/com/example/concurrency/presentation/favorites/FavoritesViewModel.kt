@@ -1,6 +1,5 @@
 package com.example.concurrency.presentation.favorites
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -12,12 +11,9 @@ import com.example.concurrency.data.local.FavoritesCurrencies
 import com.example.concurrency.data.local.FavoritesCurrenciesDao
 import com.example.concurrency.data.remote.dto.CurrencyInfo
 import com.example.concurrency.domain.repository.FavoritesCurrenciesRepository
-import com.example.concurrency.presentation.convert.ConvertState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.Currency
 import javax.inject.Inject
 
 

@@ -1,6 +1,7 @@
 package com.example.concurrency.di
 
 import android.content.Context
+import android.net.ConnectivityManager
 import androidx.room.Room
 import com.example.concurrency.data.local.FavoritesCurrenciesDatabase
 import com.example.concurrency.data.remote.ApiServices
@@ -53,5 +54,11 @@ object AppModule {
     @Singleton
     fun provideFavoritesCurrenciesRepository (@ApplicationContext context: Context) : FavoritesCurrenciesRepository = FavoritesCurrenciesRepositoryImpl(providesDatabaseDao(providesDatabase(context)),
     providesApiServices())
+
+    @Provides
+    @Singleton
+    fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager {
+        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
 }

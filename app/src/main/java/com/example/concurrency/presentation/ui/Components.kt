@@ -1,6 +1,7 @@
 package com.example.concurrency.presentation.ui
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,13 +20,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,6 +40,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -73,13 +77,13 @@ import com.example.concurrency.presentation.favorites.FavoritesViewModel
 
 
 @Composable
-fun MyTextTitle(text:String,paddingTop:Int,modifier: Modifier) {
+fun MyTextTitle(text: String, paddingTop: Int, modifier: Modifier) {
     Text(
         text = text,
         style = TextStyle(
             color = CardTextColor,
-            fontSize= 14.sp,
-            fontWeight= FontWeight.Bold,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
         ),
         modifier = modifier.padding(top = paddingTop.dp)
     )
@@ -88,12 +92,13 @@ fun MyTextTitle(text:String,paddingTop:Int,modifier: Modifier) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserEditText(
-    amount:String,
-    isAmountError:Boolean,
-    onAmountChange:(String)->Unit,
-    errorMessage : String,
+    amount: String,
+    isAmountError: Boolean,
+    onAmountChange: (String) -> Unit,
+    errorMessage: String,
     paddingTop: Int = 0,
-    modifier: Modifier) {
+    modifier: Modifier
+) {
     val customColors = TextFieldDefaults.outlinedTextFieldColors(
         // Default Colors
         cursorColor = CardTextColor,
@@ -132,15 +137,14 @@ fun UserEditText(
 }
 
 
-
 @Composable
 fun DropDownList(
     allCurrency: List<CurrencyInfo?>,
     selectedItem: CurrencyInfo,
-    expanded:Boolean,
-    onDropDownClick:()->Unit,
-    onDropDownDismissClick:()->Unit,
-    onDropDownSelectedItem:(CurrencyInfo)->Unit,
+    expanded: Boolean,
+    onDropDownClick: () -> Unit,
+    onDropDownDismissClick: () -> Unit,
+    onDropDownSelectedItem: (CurrencyInfo) -> Unit,
     paddingTop: Int = 0,
     modifier: Modifier
 ) {
@@ -152,78 +156,78 @@ fun DropDownList(
             .border(
                 border = BorderStroke(1.dp, CardBorderColor),
                 shape = RoundedCornerShape(20.dp)
-            )
-        ,
+            ),
         colors = CardDefaults.cardColors(
             containerColor = CardComponentBackground,
         ),
     ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .fillMaxWidth()
-                    .height(55.dp)
-                    .clickable {
-                        onDropDownClick()
-                    }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .fillMaxWidth()
+                .height(55.dp)
+                .clickable {
+                    onDropDownClick()
+                }
+        )
+        {
+            CountryImage(
+                link = selectedItem.flagUrl!!,
+                modifier = Modifier.weight(0.30f)
             )
-            {
-                CountryImage(
-                    link = selectedItem.flagUrl !!,
-                    modifier = Modifier.weight(0.30f)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                DropDownText(
-                    text = selectedItem.currencyCode !!,
-                    modifier = Modifier.weight(0.55f)
-                )
-                CurrencyIcon(
-                    Icons.Default.KeyboardArrowDown,
-                    "DropDown Icon",
-                    Modifier.weight(0.15f)
-                )
+            Spacer(modifier = Modifier.width(5.dp))
+            DropDownText(
+                text = selectedItem.currencyCode!!,
+                modifier = Modifier.weight(0.55f)
+            )
+            CurrencyIcon(
+                Icons.Default.KeyboardArrowDown,
+                "DropDown Icon",
+                Modifier.weight(0.15f)
+            )
 
-            }
-            DropdownMenu(
-                modifier= Modifier
-                    .background(CardComponentBackground)
-                    .height(180.dp),
-                expanded = expanded,
-                onDismissRequest = { onDropDownDismissClick() }
-            ) {
-                Column {
-                    // Create menu items
-                   allCurrency.forEach { item ->
-                        DropdownMenuItem(
-                            onClick = {
-                               onDropDownSelectedItem(item !!)
-                                onDropDownDismissClick()
-                            },
-                            text = {
-                                CardDropDown(item !!)
-                            }
-                        )
-                    }
+        }
+        DropdownMenu(
+            modifier = Modifier
+                .background(CardComponentBackground)
+                .height(180.dp),
+            expanded = expanded,
+            onDismissRequest = { onDropDownDismissClick() }
+        ) {
+            Column {
+                // Create menu items
+                allCurrency.forEach { item ->
+                    DropdownMenuItem(
+                        onClick = {
+                            onDropDownSelectedItem(item!!)
+                            onDropDownDismissClick()
+                        },
+                        text = {
+                            CardDropDown(item!!)
+                        }
+                    )
                 }
             }
         }
-
     }
+
+}
 
 @Composable
 fun CardDropDown(currency: CurrencyInfo) {
     Row(
         modifier = Modifier.background(CardComponentBackground)
 
-    ){
+    ) {
         CountryImage(
-            link =  currency.flagUrl !!,
-            modifier = Modifier.width(30.dp))
+            link = currency.flagUrl!!,
+            modifier = Modifier.width(30.dp)
+        )
         Spacer(modifier = Modifier.width(5.dp))
         Text(
-            text = "${currency.currencyCode} - ${   currency.name}",
+            text = "${currency.currencyCode} - ${currency.name}",
             color = CardTextColor,
             fontSize = 12.sp
         )
@@ -232,7 +236,7 @@ fun CardDropDown(currency: CurrencyInfo) {
 
 
 @Composable
-fun DropDownText(text:String, modifier: Modifier) {
+fun DropDownText(text: String, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(
             text = text,
@@ -243,7 +247,7 @@ fun DropDownText(text:String, modifier: Modifier) {
 }
 
 @Composable
-fun CountryImage(link:String,modifier: Modifier) {
+fun CountryImage(link: String, modifier: Modifier) {
     AsyncImage(
         model = link,
         modifier = modifier
@@ -257,7 +261,7 @@ fun CountryImage(link:String,modifier: Modifier) {
 
 
 @Composable
-fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifier) {
+fun CurrencyIcon(icon: ImageVector, contentDescription: String, modifier: Modifier) {
     Icon(
         imageVector = icon,
         contentDescription = contentDescription,
@@ -269,7 +273,7 @@ fun CurrencyIcon(icon: ImageVector, contentDescription:String, modifier: Modifie
 
 
 @Composable
-fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
+fun ResultView(result: String, paddingTop: Int, modifier: Modifier) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = CardComponentBackground,
@@ -285,45 +289,43 @@ fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
             ),
 
         ) {
-      Row (
-          modifier = modifier
-              .fillMaxWidth()
-              .padding(start = 15.dp)
-              .height(55.dp),
-          horizontalArrangement = Arrangement.Start,
-          verticalAlignment = Alignment.CenterVertically
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp)
+                .height(55.dp),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
 
-      ){
-          Text(
-              text = result,
-              style = TextStyle(
-                  color = CardTextColor,
-                  fontWeight = FontWeight.Bold,
-                  fontSize = 16.sp
-              )
-          )
-      }
+        ) {
+            Text(
+                text = result,
+                style = TextStyle(
+                    color = CardTextColor,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            )
+        }
     }
 }
 
 
-
 @Composable
-fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Unit ) {
-    Button (colors = ButtonDefaults.buttonColors(containerColor = CardButtonBackground),
+fun ButtonClickOn(buttonText: String, paddingTopValue: Int, onButtonClick: () -> Unit) {
+    Button(
+        colors = ButtonDefaults.buttonColors(containerColor = CardButtonBackground),
         enabled = true,
-        onClick = {onButtonClick()},
+        onClick = { onButtonClick() },
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(top = paddingTopValue.dp)
             .fillMaxWidth()
 
-    ){
+    ) {
         Text(text = buttonText, fontSize = 25.sp, style = TextStyle(color = CardBackground))
     }
 }
-
-
 
 
 @Composable
@@ -350,7 +352,8 @@ fun FavoritesComponents(favoriteViewModel: FavoritesViewModel, convertViewModel:
                     .wrapContentWidth(),
                 border = BorderStroke(1.dp, color = Color.Black),
                 shape = RoundedCornerShape(18.dp),
-                colors = ButtonDefaults.buttonColors(Color.White)) {
+                colors = ButtonDefaults.buttonColors(Color.White)
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.add_icon),
                     contentDescription = ""
@@ -365,11 +368,18 @@ fun FavoritesComponents(favoriteViewModel: FavoritesViewModel, convertViewModel:
             }
             Box(contentAlignment = Alignment.Center) {
                 DialogueFavoritesList(
-                    currencyList = favoriteViewModel.state.value.allCurrencies !! ,
+                    currencyList = favoriteViewModel.state.value.allCurrencies,
                     isShowDialog = favoriteViewModel.state.value.isShowDialog,
-                    onSelectFavoriteCurrency = { selectedCurrency -> favoriteViewModel.onSelectFavoriteCurrency(selectedCurrency)}
-                ) { favoriteViewModel.onCloseMyFavorite()
-                    favoriteViewModel.getExchangeRates(convertViewModel.state.value.baseCurrency.currencyCode.toString())
+                    onSelectFavoriteCurrency = { selectedCurrency ->
+                        favoriteViewModel.onSelectFavoriteCurrency(
+                            selectedCurrency
+                        )
+                    }
+                ) {
+                    favoriteViewModel.onCloseMyFavorite()
+                    if (convertViewModel.state.value.isNetworkAvailable) {
+                        favoriteViewModel.getExchangeRates(convertViewModel.state.value.baseCurrency.currencyCode.toString())
+                    }
 
                 }
             }
@@ -383,19 +393,18 @@ fun FavoritesComponents(favoriteViewModel: FavoritesViewModel, convertViewModel:
 fun DialogueFavoritesList(
     currencyList: List<CurrencyInfo?>,
     isShowDialog: Boolean,
-    onSelectFavoriteCurrency:(CurrencyInfo)->Unit,
+    onSelectFavoriteCurrency: (CurrencyInfo) -> Unit,
     onDialogDismiss: () -> Unit
 ) {
-
     if (isShowDialog) {
         Dialog(onDismissRequest = { onDialogDismiss() }) {
             Column(
-                Modifier.height(600.dp),
+                Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Card(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+//                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     shape = RoundedCornerShape(16.dp),
                     elevation = CardDefaults.cardElevation(8.dp),
                     colors = CardDefaults.cardColors(containerColor = CardComponentBackground)
@@ -409,27 +418,33 @@ fun DialogueFavoritesList(
                             color = Color.Black,
                             modifier = Modifier.padding(start = 8.dp, top = 12.dp, bottom = 12.dp)
                         )
-                        Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
                             IconButton(onClick = { onDialogDismiss() }) {
                                 Icon(Icons.Filled.Clear, contentDescription = "")
                             }
                         }
                     }
 
-
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp, start = 8.dp)
                     ) {
-                        itemsIndexed(currencyList) { index , item->
+                        items(currencyList){  item ->
                             Row {
                                 AsyncImage(
                                     model = item?.flagUrl,
                                     modifier = Modifier
                                         .size(40.dp)
                                         .clip(CircleShape)
-                                        .border(1.dp,color=Color.Black, shape = RoundedCornerShape(20.dp)),
+                                        .border(
+                                            1.dp,
+                                            color = Color.Black,
+                                            shape = RoundedCornerShape(20.dp)
+                                        ),
                                     contentScale = ContentScale.Crop,
                                     contentDescription = "Country Image",
                                     error = painterResource(id = R.drawable.placeholder),
@@ -437,7 +452,13 @@ fun DialogueFavoritesList(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Column(verticalArrangement = Arrangement.Center) {
-                                    item?.currencyCode?.let { Text(text = it, fontSize = 16.sp, fontWeight = FontWeight.W400) }
+                                    item?.currencyCode?.let {
+                                        Text(
+                                            text = it,
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.W400
+                                        )
+                                    }
                                     item?.name?.let {
                                         Text(
                                             text = it,
@@ -449,8 +470,8 @@ fun DialogueFavoritesList(
                                 }
 
                                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
-                                    IconButton(onClick = { onSelectFavoriteCurrency(item !!)}) {
-                                        if (item?.isFavourite !!) {
+                                    IconButton(onClick = { onSelectFavoriteCurrency(item!!) }) {
+                                        if (item?.isFavourite!!) {
                                             Icon(
                                                 Icons.Filled.CheckCircle,
                                                 contentDescription = "",
@@ -461,7 +482,7 @@ fun DialogueFavoritesList(
                                                 painterResource(id = R.drawable.not_selected_icon),
                                                 contentDescription = "",
 
-                                            )
+                                                )
                                         }
                                     }
                                 }
@@ -482,9 +503,8 @@ fun DialogueFavoritesList(
 }
 
 
-
 @Composable
-fun LottieAnimationShow(animationResId: Int, size:Int, padding:Int) {
+fun LottieAnimationShow(animationResId: Int, size: Int, padding: Int) {
 
 
     val composition by rememberLottieComposition(
@@ -502,8 +522,28 @@ fun LottieAnimationShow(animationResId: Int, size:Int, padding:Int) {
     LottieAnimation(
         composition,
         progress,
-        modifier = Modifier.padding(top = padding.dp).size(size.dp),
+        modifier = Modifier
+            .padding(top = padding.dp)
+            .size(size.dp),
     )
 
 
+}
+
+@Composable
+fun SnackbarComponent (text: String){
+    AnimatedVisibility(visible = true) {
+        Snackbar(modifier = Modifier.padding(top = 16.dp)) {
+            Row {
+                androidx.compose.material.Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = "",
+                    tint = Color.Red
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = text , color = Color.Red)
+            }
+
+        }
+    }
 }

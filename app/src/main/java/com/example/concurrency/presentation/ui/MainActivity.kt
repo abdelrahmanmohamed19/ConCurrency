@@ -1,6 +1,9 @@
 package com.example.concurrency.presentation.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -22,8 +25,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ConCurrencyTheme {
-                AppHomeScreen(favoritesViewModel , convertViewModel , compareViewModel)
+                    AppHomeScreen(favoritesViewModel , convertViewModel , compareViewModel)
+                }
+
             }
         }
     }
-}
+

@@ -14,25 +14,22 @@ import retrofit2.http.Query
 
 interface ApiServices {
 
-   @GET("currencies-info/currencies")
+    @GET("currencies-info/currencies")
+    suspend fun getAllCurrencies(): Response<AllCurrenciesListResponse>
 
-    suspend fun getAllCurrencies () : Response<AllCurrenciesListResponse>
-
-   @GET("currencies-conversion/currency-conversion/{baseCurrency}/{targetCurrency}/{amount}")
-
-    suspend fun convert (
-        @Path ("baseCurrency") baseCurrency : String,
-        @Path ("targetCurrency") targetCurrency :String,
-        @Path ("amount") amount :String
-        ) : Response<ConvertResponse>
+    @GET("currencies-conversion/currency-conversion/{baseCurrency}/{targetCurrency}/{amount}")
+    suspend fun convert(
+        @Path("baseCurrency") baseCurrency: String,
+        @Path("targetCurrency") targetCurrency: String,
+        @Path("amount") amount: String
+    ): Response<ConvertResponse>
 
     @POST("currencies-compare-rate/currencies-compare")
-    suspend fun compare (@Body compareRequestBody : CompareRequestBody) : Response<CompareResponse>
+    suspend fun compare(@Body compareRequestBody: CompareRequestBody): Response<CompareResponse>
 
-@GET("exchange-rate/currency-exchangeRate/{baseCurrency}")
-
-    suspend fun exchangeRates (
-    @Path ("baseCurrency") baseCurrency : String
-    ) : Response <CurrenciesExchangeRatesResponse>
+    @GET("exchange-rate/currency-exchangeRate/{baseCurrency}")
+    suspend fun exchangeRates(
+        @Path("baseCurrency") baseCurrency: String
+    ): Response<CurrenciesExchangeRatesResponse>
 }
 

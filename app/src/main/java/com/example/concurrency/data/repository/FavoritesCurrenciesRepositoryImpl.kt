@@ -1,6 +1,5 @@
 package com.example.concurrency.data.repository
 
-import androidx.compose.runtime.mutableStateOf
 import com.example.concurrency.data.local.FavoritesCurrencies
 import com.example.concurrency.data.local.FavoritesCurrenciesDao
 import com.example.concurrency.data.remote.ApiServices
