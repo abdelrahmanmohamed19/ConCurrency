@@ -11,18 +11,19 @@ The app will be developed for multiple platforms, including web, Android ,and iO
 
 ## Features
 
+```diff
 The android app lets you:
-- convert between different currencies, can enter the amount they want to convert, select the source currency, and choose the target currency. The app will display the converted amount
++ convert between different currencies, can enter the amount they want to convert, select the source currency, and choose the target currency. The app will display the converted amount
 based on the current exchange rate.
 
-- compare between multiple currencies by enter the amount they want to convert, select the source currency, and choose multiple target currencies. The app will display the compared amount
++ compare between multiple currencies by enter the amount they want to convert, select the source currency, and choose multiple target currencies. The app will display the compared amount
 based on the current exchange rate.
 
-- The app will fetch real-time exchange rates based on the selected source currency.
++ The app will fetch real-time exchange rates based on the selected source currency.
 
-- mark specific currencies as their favorites for quick access. The app will provide an option to save and manage a list of frequently used currencies.
++ mark specific currencies as their favorites for quick access. The app will provide an option to save and manage a list of frequently used currencies.
 
-
+```
 
 
 ## Technical
