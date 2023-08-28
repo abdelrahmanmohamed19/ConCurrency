@@ -42,7 +42,6 @@ fun CurrencyCompareScreen (viewModel : CompareViewModel) {
             UserEditText(
                 amount = state.amount,
                 isAmountError = state.isAmountError,
-                errorMessage = state.amountErrorMessage,
                 onAmountChange = {newAmount -> viewModel.onAmountChange(newAmount) } ,
                 paddingTop = 20,
                 modifier = Modifier.weight(0.48f)

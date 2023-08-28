@@ -91,13 +91,12 @@ fun UserEditText(
     amount:String,
     isAmountError:Boolean,
     onAmountChange:(String)->Unit,
-    errorMessage : String,
     paddingTop: Int = 0,
     modifier: Modifier) {
     val customColors = TextFieldDefaults.outlinedTextFieldColors(
         // Default Colors
         cursorColor = CardTextColor,
-        focusedBorderColor = CardBorderColor,
+        focusedBorderColor   = CardBorderColor,
         unfocusedBorderColor = CardBorderColor,
         containerColor = CardComponentBackground,
 
@@ -194,7 +193,7 @@ fun DropDownList(
                 onDismissRequest = { onDropDownDismissClick() }
             ) {
                 Column {
-                    // Create menu items
+                    // Create menu items and add SemanticsDescription to use it in testing
                    allCurrency.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
