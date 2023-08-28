@@ -4,10 +4,10 @@ import com.example.concurrency.data.remote.dto.CurrencyInfo
 
 data class ConvertState(
     val allCurrencies:List<CurrencyInfo?> = emptyList(),
-    val amount:String = "0",
+    val amount:String = "1",
     val baseCurrency: CurrencyInfo = CurrencyInfo(),
     val targetCurrency:CurrencyInfo = CurrencyInfo(),
-    val resultTarget:String = "0",
+    val resultTarget:String = "1",
 
     // amount error
     val isAmountError:Boolean = false,

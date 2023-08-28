@@ -47,7 +47,8 @@ fun CurrencyConverterCard (viewModel: ConvertViewModel, favoritesViewModel: Favo
                 onDropDownClick = {viewModel.onBaseDropDownListClick()},
                 onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
                 onDropDownSelectedItem = {selectedCurrency -> viewModel.onBaseCurrencyChange(selectedCurrency)
-                    favoritesViewModel.getExchangeRates(state.baseCurrency.currencyCode.toString())},
+                    favoritesViewModel.getExchangeRates(viewModel.state.value.baseCurrency.currencyCode.toString())
+               },
                 paddingTop = 20,
                 modifier = Modifier.weight(0.60f))
         }

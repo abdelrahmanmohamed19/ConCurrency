@@ -11,8 +11,8 @@ data class ComparisonData(
 )
 
 data class ConversionRates(
-    @SerializedName("FirstTargetRate")
+    @SerializedName("firstTargetRate")
     val firstTargetResult: Double? = null,
-    @SerializedName("SecondTargetRate")
+    @SerializedName("secondTargetRate")
     val secondTargetResult: Double? = null
 )
