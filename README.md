@@ -9,7 +9,6 @@ conversion rates. It will support a wide range of currencies and offer a user-fr
 
 
 
-
 ## Features
 
 The android app lets you:
