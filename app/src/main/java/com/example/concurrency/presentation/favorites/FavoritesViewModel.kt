@@ -47,7 +47,7 @@ class FavoritesViewModel @Inject constructor(private val dao : FavoritesCurrenci
     fun onCloseMyFavorite(){
         _state =  _state.copy(
             isShowDialog = false
-         )
+           )
     }
 
     fun onSelectFavoriteCurrency(currency: CurrencyInfo ){
