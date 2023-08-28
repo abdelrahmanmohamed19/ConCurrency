@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ConCurrency</string>
+    <string name="amount">مبلغ</string>
+    <string name="from">من</string>
+    <string name="to">الي</string>
+    <string name="convert">تحويل</string>
+    <string name="currencyConverter">محول العملات</string>
+    <string name="cardTitleSecond">تحقق من أسعار صرف العملات الأجنبية الحالية</string>
+    <string name="compare">مقارنة</string>
+    <string name="targetCurrency">العملة المستهدفة</string>
+    <string name="liveExchangRates">اسعار الصرف الحاليه</string>
+    <string name="addFavorites">اضافة الي المفضلات</string>
+    <string name="myFavorites">مفضلاتي</string>
+    <string name="myPortfolio">المفضلات</string>
+</resources>
