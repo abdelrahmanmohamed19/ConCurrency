@@ -1,8 +1,8 @@
-# ConCurrency - Android App    <img height="40" src="https://user-images.githubusercontent.com/25181517/117269608-b7dcfb80-ae58-11eb-8e66-6cc8753553f0.png" />
+# ConCurrency - Android App <img height="40" src="https://user-images.githubusercontent.com/25181517/117269608-b7dcfb80-ae58-11eb-8e66-6cc8753553f0.png" />
 
 
 
-## About
+## $\color{green}{About}$
 
 The currency conversion app aims to provide users with real-time and accurate currency
 conversion rates. It will support a wide range of currencies and offer a user-friendly interface.
@@ -11,19 +11,18 @@ The app will be developed for multiple platforms, including web, Android ,and iO
 
 ## Features
 
-```diff
-The android app lets you:
-+ convert between different currencies, can enter the amount they want to convert, select the source currency, and choose the target currency. The app will display the converted amount
-based on the current exchange rate.
 
-+ compare between multiple currencies by enter the amount they want to convert, select the source currency, and choose multiple target currencies. The app will display the compared amount
-based on the current exchange rate.
+The android app lets you:
+
++ convert between different currencies, can enter the amount they want to convert, select the source currency, and choose the target currency. The app will display the converted amount based on the current exchange rate.
+
++ compare between multiple currencies by enter the amount they want to convert, select the source currency, and choose multiple target currencies. The app will display the compared amount based on the current exchange rate.
 
 + The app will fetch real-time exchange rates based on the selected source currency.
 
 + mark specific currencies as their favorites for quick access. The app will provide an option to save and manage a list of frequently used currencies.
 
-```
+
 
 
 ## Technical
