@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -68,8 +67,8 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.concurrency.R
-import com.example.concurrency.data.local.FavoritesCurrencies
 import com.example.concurrency.data.remote.dto.CurrencyInfo
+import com.example.concurrency.presentation.convert.ConvertViewModel
 import com.example.concurrency.presentation.favorites.FavoritesViewModel
 
 
@@ -328,7 +327,7 @@ fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Un
 
 
 @Composable
-fun FavoritesComponents(homeViewModel: FavoritesViewModel) {
+fun FavoritesComponents(favoriteViewModel: FavoritesViewModel, convertViewModel: ConvertViewModel) {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -345,7 +344,7 @@ fun FavoritesComponents(homeViewModel: FavoritesViewModel) {
             )
 
             Button(
-                onClick = { homeViewModel.onAddToFavoriteClick() },
+                onClick = { favoriteViewModel.onAddToFavoriteClick() },
                 modifier = Modifier
                     .padding(start = 12.dp)
                     .wrapContentWidth(),
@@ -366,10 +365,13 @@ fun FavoritesComponents(homeViewModel: FavoritesViewModel) {
             }
             Box(contentAlignment = Alignment.Center) {
                 DialogueFavoritesList(
-                    currencyList = homeViewModel.state.value.allCurrencies !! ,
-                    isShowDialog = homeViewModel.state.value.isShowDialog,
-                    onSelectFavoriteCurrency = { selectedCurrency -> homeViewModel.onSelectFavoriteCurrency(selectedCurrency)}
-                ) { homeViewModel.onCloseMyFavorite() }
+                    currencyList = favoriteViewModel.state.value.allCurrencies !! ,
+                    isShowDialog = favoriteViewModel.state.value.isShowDialog,
+                    onSelectFavoriteCurrency = { selectedCurrency -> favoriteViewModel.onSelectFavoriteCurrency(selectedCurrency)}
+                ) { favoriteViewModel.onCloseMyFavorite()
+                    favoriteViewModel.getExchangeRates(convertViewModel.state.value.baseCurrency.currencyCode.toString())
+
+                }
             }
 
         }

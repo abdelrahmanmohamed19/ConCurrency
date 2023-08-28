@@ -35,7 +35,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit (): Retrofit = Retrofit.Builder().baseUrl("https://allcurrency-5081e-default-rtdb.firebaseio.com/").addConverterFactory(GsonConverterFactory.create()).build()
+    fun providesRetrofit (): Retrofit = Retrofit.Builder().baseUrl("https://bmgraduationproject-production.up.railway.app/api/v1/").addConverterFactory(GsonConverterFactory.create()).build()
 
     @Provides
     @Singleton

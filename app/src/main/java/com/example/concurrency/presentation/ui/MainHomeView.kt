@@ -26,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.concurrency.R
 import com.example.concurrency.presentation.convert.ConvertViewModel
@@ -43,7 +42,7 @@ fun MainHomeView(convertViewModel: ConvertViewModel , favoritesViewModel: Favori
             Divider(modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 32.dp), color = Color.LightGray)
-            FavoritesComponents(favoritesViewModel)
+            FavoritesComponents(favoritesViewModel,convertViewModel)
             favoritesViewModel.getExchangeRates(convertViewModel.state.value.baseCurrency.currencyCode.toString())
             Text(text = stringResource(id = R.string.myPortfolio), fontWeight = W700, modifier = Modifier.padding(bottom = 16.dp))
         }

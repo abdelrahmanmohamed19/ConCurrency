@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CurrenciesExchangeRatesResponse(
     @SerializedName("data")
-    val `data`: List<ExchangeRatesData?>? = null,
+    val data: List<ExchangeRatesData?>? = null,
     @SerializedName("status")
     val status: String? = null
 )

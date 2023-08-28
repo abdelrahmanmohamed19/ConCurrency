@@ -1,5 +1,6 @@
 package com.example.concurrency.presentation.favorites
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -46,7 +47,7 @@ class FavoritesViewModel @Inject constructor(private val dao : FavoritesCurrenci
     fun onCloseMyFavorite(){
         _state =  _state.copy(
             isShowDialog = false
-        )
+         )
     }
 
     fun onSelectFavoriteCurrency(currency: CurrencyInfo ){
@@ -83,17 +84,18 @@ class FavoritesViewModel @Inject constructor(private val dao : FavoritesCurrenci
         }
     }
 
-   fun getExchangeRates (baseCurrency: String)  {
+    fun getExchangeRates(baseCurrency: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val currencyApi = repo.getFavoritesExchangeRates(baseCurrency = baseCurrency)
-            for (currencyInfo in currencyApi) {
-                myFavoriteList.value.forEach{
-                    if (it.currencyCode == currencyInfo?.code) {
-                        it.amount  = currencyInfo.rate.toString()
-                    }
+            val updatedList = myFavoriteList.value.map { favoriteCurrency ->
+                val matchingApiCurrency = currencyApi.find { it?.code == favoriteCurrency.currencyCode }
+                if (matchingApiCurrency != null) {
+                    favoriteCurrency.copy(amount = matchingApiCurrency.rate.toString())
+                } else {
+                    favoriteCurrency
                 }
             }
-
+            myFavoriteList.value = updatedList
         }
     }
 }
