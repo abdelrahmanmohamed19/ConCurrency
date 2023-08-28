@@ -9,7 +9,7 @@ conversion rates. It will support a wide range of currencies and offer a user-fr
 The app will be developed for multiple platforms, including web, Android ,and iOS.
 
 
-## Features
+## $\color{green}{Features}$
 
 
 The android app lets you:
@@ -25,7 +25,7 @@ The android app lets you:
 
 
 
-## Technical
+## $\color{green}{Technical}$
 
 - Architecture: The app follows the MVVM (Model-View-ViewModel) architecture, which promotes a clear separation of concerns and facilitates easier testing and scalability.
 
@@ -51,7 +51,7 @@ The android app lets you:
 
 
 
-## Screenshots
+## $\color{green}{Screenshots}$
 
 [<img src="/screenShots/convert.jpg" align="left"
 width="200"
@@ -68,14 +68,14 @@ width="200"
 width="200"
     hspace="10" vspace="10">](/screenShots/dialog.jpg)
 
-## Permissions
+## $\color{red}{Permissions}$
 
 On Android versions {version}, ConCurrency requires the following permissions:
 - Full Network Access.
 
 The network access permissions are made use of for currency converter and Life exchange rates APIs.
 
-## Authors
+## $\color{blue}{Authors}$
 
 - [@Mahmoudadel17](https://www.github.com/Mahmoudadel17)
 - [@AbdelrahmanMohamed](https://github.com/abdelrahmanmohamed19)
