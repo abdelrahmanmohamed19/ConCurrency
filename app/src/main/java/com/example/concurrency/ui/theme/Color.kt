@@ -7,14 +7,13 @@ val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 
 
-val Purple40 = Color(0xFF6650a4)
+val Purple40 = Color(0xFF2A0231)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val lightBackground = Color(0xFFFFFFFF)
-
-val TextSplash = Color(0xFFAA9988)
-
+val TextSplash1 = Color(0xFFC57F38)
+val TextSplash2 = Color(0xFF3B810F)
 // Card Colors
 val CardBackground = Color(0xFFFFFFFF)
 val CardComponentBackground = Color(0xFFE7E6E6)

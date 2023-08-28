@@ -283,7 +283,6 @@ fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
                 border = BorderStroke(1.dp, CardBorderColor),
                 shape = RoundedCornerShape(20.dp)
             ),
-
         ) {
       Row (
           modifier = modifier
@@ -292,7 +291,6 @@ fun ResultView(result:String ,paddingTop:Int,modifier: Modifier) {
               .height(55.dp),
           horizontalArrangement = Arrangement.Start,
           verticalAlignment = Alignment.CenterVertically
-
       ){
           Text(
               text = result,
@@ -322,8 +320,6 @@ fun ButtonClickOn(buttonText:String, paddingTopValue:Int, onButtonClick:() -> Un
         Text(text = buttonText, fontSize = 25.sp, style = TextStyle(color = CardBackground))
     }
 }
-
-
 
 
 @Composable

@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -47,8 +48,10 @@ import com.example.concurrency.presentation.compare.CompareViewModel
 import com.example.concurrency.presentation.convert.ConvertViewModel
 import com.example.concurrency.presentation.favorites.FavoritesViewModel
 import com.example.concurrency.ui.theme.CardTextColor
+import com.example.concurrency.ui.theme.Purple40
 import com.example.concurrency.ui.theme.SelectedTab
-import com.example.concurrency.ui.theme.TextSplash
+import com.example.concurrency.ui.theme.TextSplash1
+import com.example.concurrency.ui.theme.TextSplash2
 import com.example.concurrency.ui.theme.UnSelectedTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -80,24 +83,26 @@ fun AppHomeScreen(favoritesViewModel: FavoritesViewModel, convertViewModel: Conv
 }
 
 
-@Preview(showSystemUi = true, showBackground = true)
+//@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun SplashScreen() {
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.Black),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ){
         Text(
             text = stringResource(id = R.string.app_name),
             fontSize = 36.sp,
-            color = TextSplash,
+            color = TextSplash2,
             modifier = Modifier.padding(top = 250.dp)
         )
         Text(
             text = stringResource(id = R.string.currencyConverter),
             fontSize = 24.sp,
-            color = TextSplash,
+            color = TextSplash1,
             letterSpacing = 0.2.em,
             modifier = Modifier.padding(top = 10.dp)
         )
@@ -107,10 +112,7 @@ fun SplashScreen() {
     }
 }
 
-
-
-
-
+@Preview
 @Composable
 fun TopAppScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -122,22 +124,24 @@ fun TopAppScreen() {
     }
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(15.dp),
+        .padding(30.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(14.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "ConCurrency", color = Color.White, fontSize = 18.sp)
+           Image(painter = painterResource(id = R.drawable.title_bar),
+               contentDescription = "title",
+               modifier = Modifier.width(144.dp).height(32.dp))
         }
         Text(text = "Currency Converter", color = Color.White, fontSize = 25.sp)
         Text(
             text = "check live foreign Currency exchange rates",
-            color = Color.White,
-            fontSize = 14.sp
+            color = Color.LightGray,
+            fontSize = 16.sp
         )
 
     }
