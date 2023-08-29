@@ -42,7 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.em
 import androidx.core.app.ActivityCompat.finishAffinity
-import com.example.concurrency.data.Constants
+import com.example.concurrency.domain.Constants
 import com.example.concurrency.presentation.compare.CompareViewModel
 import com.example.concurrency.presentation.convert.ConvertViewModel
 import com.example.concurrency.presentation.favorites.FavoritesViewModel
@@ -59,24 +59,24 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun AppHomeScreen(favoritesViewModel: FavoritesViewModel, convertViewModel: ConvertViewModel , compareViewModel: CompareViewModel) {
+fun AppHomeScreen(
+    favoritesViewModel: FavoritesViewModel,
+    convertViewModel: ConvertViewModel,
+    compareViewModel: CompareViewModel
+) {
 
     var isSplashScreenVisible by remember { mutableStateOf(true) }
     if (isSplashScreenVisible) {
         SplashScreen()
-    }
-    else{
+    } else {
         TopAppScreen()
-        HomeContentScreen(favoritesViewModel , convertViewModel, compareViewModel)
+        HomeContentScreen(favoritesViewModel, convertViewModel, compareViewModel)
 
     }
     LaunchedEffect(Unit) {
         delay(4.seconds)
         isSplashScreenVisible = false
     }
-
-
-
 }
 
 
@@ -84,10 +84,12 @@ fun AppHomeScreen(favoritesViewModel: FavoritesViewModel, convertViewModel: Conv
 @Composable
 fun SplashScreen() {
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.Black),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-    ){
+    ) {
         Text(
             text = stringResource(id = R.string.app_name),
             fontSize = 36.sp,
@@ -102,28 +104,30 @@ fun SplashScreen() {
             modifier = Modifier.padding(top = 10.dp)
         )
 
-        LottieAnimationShow(R.raw.loading,200,250)
+        LottieAnimationShow(R.raw.loading, 200, 250)
 
     }
 }
 
 
-
-
-
 @Composable
 fun TopAppScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(painter = painterResource(id = R.drawable.background_image), contentDescription = "Image",
+        Image(
+            painter = painterResource(id = R.drawable.background_image),
+            contentDescription = "Image",
             modifier = Modifier
                 .height(250.dp)
                 .fillMaxWidth(),
-            contentScale = ContentScale.FillBounds)
+            contentScale = ContentScale.FillBounds
+        )
     }
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(15.dp),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -153,12 +157,12 @@ fun HomeContentScreen(
     var doubleBackToExitPressedOnce = false
     val activity = LocalOnBackPressedDispatcherOwner.current as ComponentActivity
     val context = LocalContext.current
-    val tabItem = listOf(Constants.convertRoute,Constants.compareRoute)
+    val tabItem = listOf(Constants.convertRoute, Constants.compareRoute)
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
 
-    Box{
+    Box {
         HorizontalPager(
             count = tabItem.size, state = pagerState,
             modifier = Modifier
@@ -167,13 +171,18 @@ fun HomeContentScreen(
                 .background(color = Color.White),
             verticalAlignment = Alignment.Top,
 
-        ) { index ->
-            Column (
+            ) { index ->
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 50.dp)
-            ){
-                AppNavigation(tabItem[index], favoritesViewModel , convertViewModel , compareViewModel )
+            ) {
+                AppNavigation(
+                    tabItem[index],
+                    favoritesViewModel,
+                    convertViewModel,
+                    compareViewModel
+                )
             }
         }
 
@@ -223,14 +232,13 @@ fun HomeContentScreen(
                     ),
                     onClick = {
                         coroutineScope.launch {
-                            pagerState.animateScrollToPage(index) }
+                            pagerState.animateScrollToPage(index)
+                        }
 
                     })
             }
 
         }
-
-
     }
 
     //Back Handler

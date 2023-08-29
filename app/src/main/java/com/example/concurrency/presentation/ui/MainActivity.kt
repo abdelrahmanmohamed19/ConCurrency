@@ -22,8 +22,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ConCurrencyTheme {
-                AppHomeScreen(favoritesViewModel , convertViewModel , compareViewModel)
+                    AppHomeScreen(favoritesViewModel , convertViewModel , compareViewModel)
+                }
             }
         }
     }
-}
+

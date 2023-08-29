@@ -23,7 +23,8 @@ class CompareRepositoryImpl @Inject constructor(private val api : ApiServices) :
     }
 
     override suspend fun compare(compareRequestBody: CompareRequestBody): ConversionRates {
-       lateinit var conversionRates : ConversionRates
+
+        lateinit var conversionRates : ConversionRates
 
         val response = api.compare(compareRequestBody)
 

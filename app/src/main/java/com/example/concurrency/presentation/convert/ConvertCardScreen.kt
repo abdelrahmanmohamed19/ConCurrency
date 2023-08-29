@@ -18,11 +18,11 @@ import com.example.concurrency.presentation.ui.ButtonClickOn
 import com.example.concurrency.presentation.ui.DropDownList
 import com.example.concurrency.presentation.ui.MyTextTitle
 import com.example.concurrency.presentation.ui.ResultView
+import com.example.concurrency.presentation.ui.SnackbarComponent
 import com.example.concurrency.presentation.ui.UserEditText
-import kotlinx.coroutines.GlobalScope
 
 @Composable
-fun CurrencyConverterCard (viewModel: ConvertViewModel, favoritesViewModel: FavoritesViewModel) {
+fun CurrencyConverterCard(viewModel: ConvertViewModel, favoritesViewModel: FavoritesViewModel) {
     val state = viewModel.state.value
 
     Column {
@@ -36,24 +36,27 @@ fun CurrencyConverterCard (viewModel: ConvertViewModel, favoritesViewModel: Favo
                 amount = state.amount,
                 isAmountError = state.isAmountError,
                 errorMessage = state.amountErrorMessage,
-                onAmountChange = {newAmount -> viewModel.onAmountChange(newAmount)},
+                onAmountChange = { newAmount -> viewModel.onAmountChange(newAmount) },
                 paddingTop = 20,
-                modifier = Modifier.weight(0.40f))
+                modifier = Modifier.weight(0.40f)
+            )
             Spacer(modifier = Modifier.width(10.dp))
             DropDownList(
-                allCurrency = state.allCurrencies ,
+                allCurrency = state.allCurrencies,
                 selectedItem = state.baseCurrency,
                 expanded = state.isBaseDropDownExpend,
-                onDropDownClick = {viewModel.onBaseDropDownListClick()},
-                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
-                onDropDownSelectedItem = {selectedCurrency -> viewModel.onBaseCurrencyChange(selectedCurrency)
+                onDropDownClick = { viewModel.onBaseDropDownListClick() },
+                onDropDownDismissClick = { viewModel.onDropDownListDismiss() },
+                onDropDownSelectedItem = { selectedCurrency ->
+                    viewModel.onBaseCurrencyChange(selectedCurrency)
                     favoritesViewModel.getExchangeRates(viewModel.state.value.baseCurrency.currencyCode.toString())
-               },
+                },
                 paddingTop = 20,
-                modifier = Modifier.weight(0.60f))
+                modifier = Modifier.weight(0.60f)
+            )
         }
         Row {
-            AnimatedVisibility(visible = state.amountErrorMessage != "" ) {
+            AnimatedVisibility(visible = state.amountErrorMessage != "") {
                 Text(text = state.amountErrorMessage, fontSize = 12.sp, color = Color.Red)
             }
         }
@@ -67,11 +70,12 @@ fun CurrencyConverterCard (viewModel: ConvertViewModel, favoritesViewModel: Favo
                 allCurrency = state.allCurrencies,
                 selectedItem = state.targetCurrency,
                 expanded = state.isTargetDropDownExpend,
-                onDropDownClick = {viewModel.onTargetDropDownListClick()},
-                onDropDownDismissClick = {viewModel.onDropDownListDismiss()},
-                onDropDownSelectedItem = {selectedCurrency -> viewModel.onTargetCurrencyChange(selectedCurrency)},
+                onDropDownClick = { viewModel.onTargetDropDownListClick() },
+                onDropDownDismissClick = { viewModel.onDropDownListDismiss() },
+                onDropDownSelectedItem = { selectedCurrency -> viewModel.onTargetCurrencyChange(selectedCurrency)},
                 paddingTop = 20,
-                Modifier.weight(0.60f))
+                Modifier.weight(0.60f)
+            )
             Spacer(modifier = Modifier.width(10.dp))
             ResultView(state.resultTarget, 20, Modifier.weight(0.40f))
         }
@@ -82,6 +86,13 @@ fun CurrencyConverterCard (viewModel: ConvertViewModel, favoritesViewModel: Favo
         ) {
             viewModel.onConvertClick()
 
+        }
+
+        if (!state.isNetworkAvailable) {
+            SnackbarComponent("No internet connection")
+        }
+        else if (state.errorMessage != "") {
+            SnackbarComponent(state.errorMessage)
         }
     }
 

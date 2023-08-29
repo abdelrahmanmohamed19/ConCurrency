@@ -8,5 +8,4 @@ data class AllCurrenciesListResponse(
     val currencyInfoList: List<CurrencyInfo?>? = null,
     @SerializedName("status")
     val status: String? = null,
-
     )
