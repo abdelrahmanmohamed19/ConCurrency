@@ -110,7 +110,8 @@ class CompareViewModel @Inject constructor(private val repo : CompareRepository 
                 // Handle the network error, update state to show error message
                 _state = _state.copy(
                     firstResultTarget = "",
-                    secondResultTarget = ""
+                    secondResultTarget = "",
+                    errorMessage = "Error\nsomething went wrong"
                 )
             }
         }

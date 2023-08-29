@@ -23,6 +23,7 @@ import com.example.concurrency.R
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Tab
@@ -38,9 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.em
 import androidx.core.app.ActivityCompat.finishAffinity
 import com.example.concurrency.domain.Constants
 import com.example.concurrency.presentation.compare.CompareViewModel
@@ -48,7 +47,6 @@ import com.example.concurrency.presentation.convert.ConvertViewModel
 import com.example.concurrency.presentation.favorites.FavoritesViewModel
 import com.example.concurrency.ui.theme.CardTextColor
 import com.example.concurrency.ui.theme.SelectedTab
-import com.example.concurrency.ui.theme.TextSplash
 import com.example.concurrency.ui.theme.UnSelectedTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -86,25 +84,17 @@ fun SplashScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color(0xff1A2B30)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = stringResource(id = R.string.app_name),
-            fontSize = 36.sp,
-            color = TextSplash,
-            modifier = Modifier.padding(top = 250.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.currencyConverter),
-            fontSize = 24.sp,
-            color = TextSplash,
-            letterSpacing = 0.2.em,
-            modifier = Modifier.padding(top = 10.dp)
+        Spacer(modifier = Modifier.height(200.dp))
+        Image(
+            painter = painterResource(id = R.drawable.app_logo),
+            contentDescription = "Splash Image",
         )
 
-        LottieAnimationShow(R.raw.loading, 200, 250)
+        LottieAnimationShow(R.raw.loading, 200, 100)
 
     }
 }
@@ -135,7 +125,13 @@ fun TopAppScreen() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "ConCurrency", color = Color.White, fontSize = 18.sp)
+            Image(
+                painter = painterResource(id = R.drawable.title_bar),
+                contentDescription = "title",
+                modifier = Modifier
+                    .width(144.dp)
+                    .height(32.dp)
+            )
         }
         Text(text = "Currency Converter", color = Color.White, fontSize = 25.sp)
         Text(
@@ -143,10 +139,8 @@ fun TopAppScreen() {
             color = Color.White,
             fontSize = 14.sp
         )
-
     }
 }
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeContentScreen(
@@ -248,7 +242,7 @@ fun HomeContentScreen(
         } else {
             doubleBackToExitPressedOnce = true
             Toast.makeText(context, "Press again to exit", Toast.LENGTH_SHORT).show()
-            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 1000)
         }
     })
 }

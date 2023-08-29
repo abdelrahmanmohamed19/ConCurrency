@@ -1,6 +1,7 @@
 package com.example.concurrency.presentation.ui
 
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -61,6 +62,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
@@ -299,7 +301,7 @@ fun ResultView(result: String, paddingTop: Int, modifier: Modifier) {
 
         ) {
             Text(
-                text = result,
+                text = if (result != "") {"%.4f".format(result.toDouble())} else result,
                 style = TextStyle(
                     color = CardTextColor,
                     fontWeight = FontWeight.Bold,
@@ -396,6 +398,7 @@ fun DialogueFavoritesList(
     onSelectFavoriteCurrency: (CurrencyInfo) -> Unit,
     onDialogDismiss: () -> Unit
 ) {
+    val context = LocalContext.current
     if (isShowDialog) {
         Dialog(onDismissRequest = { onDialogDismiss() }) {
             Column(
@@ -404,7 +407,6 @@ fun DialogueFavoritesList(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Card(
-//                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     shape = RoundedCornerShape(16.dp),
                     elevation = CardDefaults.cardElevation(8.dp),
                     colors = CardDefaults.cardColors(containerColor = CardComponentBackground)
@@ -468,9 +470,11 @@ fun DialogueFavoritesList(
                                         )
                                     }
                                 }
-
                                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
-                                    IconButton(onClick = { onSelectFavoriteCurrency(item!!) }) {
+                                    IconButton(onClick = { onSelectFavoriteCurrency(item!!)
+                                    if(item.isFavourite.not()) { Toast.makeText(context,"Added to Favorites",Toast.LENGTH_SHORT).show() }
+                                        else{Toast.makeText(context,"Removed from Favorites",Toast.LENGTH_SHORT).show()}
+                                    }) {
                                         if (item?.isFavourite!!) {
                                             Icon(
                                                 Icons.Filled.CheckCircle,
@@ -481,7 +485,6 @@ fun DialogueFavoritesList(
                                             Icon(
                                                 painterResource(id = R.drawable.not_selected_icon),
                                                 contentDescription = "",
-
                                                 )
                                         }
                                     }

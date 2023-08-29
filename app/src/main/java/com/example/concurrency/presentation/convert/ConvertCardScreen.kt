@@ -92,7 +92,7 @@ fun CurrencyConverterCard(viewModel: ConvertViewModel, favoritesViewModel: Favor
             SnackbarComponent("No internet connection")
         }
         else if (state.errorMessage != "") {
-            SnackbarComponent(state.errorMessage)
+            SnackbarComponent("Error")
         }
     }
 
