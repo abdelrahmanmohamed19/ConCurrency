@@ -1,6 +1,5 @@
 package com.example.concurrency.data.repository
 
-import android.util.Log
 import com.example.concurrency.data.remote.ApiServices
 import com.example.concurrency.data.remote.dto.CompareRequestBody
 import com.example.concurrency.data.remote.dto.ConversionRates
@@ -31,7 +30,6 @@ class CompareRepositoryImpl @Inject constructor(private val api : ApiServices) :
 
         if (response.isSuccessful) {
             val responseBody = response.body()?.comparisonData?.conversionRates
-            Log.i("respoonseRepo",responseBody.toString())
             conversionRates = responseBody !!
         }
         return conversionRates

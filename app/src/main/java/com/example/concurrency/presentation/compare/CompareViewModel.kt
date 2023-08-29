@@ -1,8 +1,6 @@
 package com.example.concurrency.presentation.compare
 
-import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -14,7 +12,6 @@ import com.example.concurrency.data.remote.dto.CompareRequestBody
 import com.example.concurrency.data.remote.dto.CurrencyInfo
 import com.example.concurrency.domain.repository.CompareRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -112,8 +109,8 @@ class CompareViewModel @Inject constructor(private val repo : CompareRepository 
             } catch (e: Exception) {
                 // Handle the network error, update state to show error message
                 _state = _state.copy(
-                    firstResultTarget = "Error",
-                    secondResultTarget = "Error"
+                    firstResultTarget = "",
+                    secondResultTarget = ""
                 )
             }
         }
