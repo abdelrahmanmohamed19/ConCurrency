@@ -70,10 +70,10 @@ width="200"
 
 ## $\color{red}{Permissions}$
 
-On Android versions {version}, ConCurrency requires the following permissions:
+ConCurrency requires the following permissions:
 - Full Network Access.
 
-The network access permissions are made use of for currency converter and Life exchange rates APIs.
+The network access permissions are made use of for currency converter, comparison and Life exchange rates APIs.
 
 ## $\color{blue}{Authors}$
 
