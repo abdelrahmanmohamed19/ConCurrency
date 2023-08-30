@@ -49,6 +49,8 @@ The android app lets you:
 
 - Dependency Injection: Hilt is utilized for dependency injection. It simplifies the process of managing dependencies and enhances the testability and maintainability of the codebase.
 
+- Testing & Error Handling:  The app employs unit tests to validate code components in isolation, Network errors are gracefully managed, with Retrofit checking HTTP responses and displaying user-friendly messages, exception handling prevents crashes by catching and logging unexpected errors, enhancing app stability.
+
 - Image Loading: Images are loaded efficiently using the Coil library, which handles image caching and loading with ease.
 
 - Animations: Lottie animations are integrated into the app to provide visually appealing and interactive animations that enhance the user experience.
