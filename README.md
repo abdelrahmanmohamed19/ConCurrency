@@ -54,7 +54,7 @@ The currency conversion app aims to provide users with real-time and accurate cu
 
 <div style="display: flex; justify-content: center;">
 <img src="/screenShots/convert.jpg" align="left"width="200" hspace="10" vspace="10">
-<img src="/screenShots/compare.jpg" align="center"width="200"hspace="10" vspace="10">
 <img src="/screenShots/favorite.jpg" align="left"width="200"hspace="10" vspace="10">
+<img src="/screenShots/compare.jpg" align="center"width="200"hspace="10" vspace="10">
 <img src="/screenShots/dialog.jpg" align="center"width="200"hspace="10" vspace="10">
 </div>
